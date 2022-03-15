@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function How() {
+export default function Rules() {
     return (
         <div>
             <h1 className="h1">Game Rules</h1>

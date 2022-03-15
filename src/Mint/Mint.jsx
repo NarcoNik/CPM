@@ -178,19 +178,7 @@ export default function Mint() {
                         background: "#831a49",
                         backgroundSize: "auto 100%",
                     }}
-                >
-                    {/* <img
-                        style={{
-                            left: s,
-                            height: "70px",
-                            position: "absolute",
-                            zindex: "2",
-                            transform: "translateX(-60px)",
-                        }}
-                        alt=""
-                        src={ship}
-                    /> */}
-                </div>
+                ></div>
                 <div className="Minting_prog_text">
                     <div className="Minting_prog_text_item">
                         1 METIS<span> {gen0}</span>

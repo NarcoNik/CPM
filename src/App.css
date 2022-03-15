@@ -25,7 +25,7 @@ button {
 }
 
 .logoSW {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     max-width: 640px;
     height: 200px;
     object-fit: contain;
@@ -121,6 +121,7 @@ h1 {
     padding: 2px;
     background-color: #02ffff;
     border: #131415;
+    padding: 0px 6px;
     margin: 4px;
 }
 .a {
@@ -167,7 +168,7 @@ span {
     color: black;
     border-radius: 8px;
     border: 1px;
-    padding: 2px;
+    padding: 0px 6px;
     background-color: #02ffff;
     border: #131415;
     margin: 4px;
@@ -492,19 +493,11 @@ span {
     margin-top: 30px;
 }
 
-.buyButton {
-    display: flex;
-    justify-content: center;
-    margin-left: 300px;
-    margin-bottom: 50px;
-}
 @media (max-width: 850px) {
     .HomeM {
         padding: 10px 20px;
     }
-    .logoSW {
-        margin-bottom: 50px;
-    }
+
     .logoSW1 {
         margin-top: 20px;
         margin-bottom: 30px;
@@ -595,6 +588,21 @@ span {
     }
 }
 @media (max-width: 650px) {
+    .connect {
+        font-size: 14px;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
+    }
+    .connectBTN {
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
+        font-size: 14px;
+    }
+    .selectAll {
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
+        font-size: 14px;
+    }
     .Minting_prog {
         width: 500px;
     }
@@ -650,16 +658,28 @@ span {
     .BorderBox_main {
         font-size: 10px;
     }
-
-    .connect {
+    .MetaMask {
+        height: 15px;
+        width: 15px;
+    }
+    .balance {
         font-size: 10px;
+    }
+    .connect {
+        font-size: 12px;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
     }
     .connectBTN {
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
         -webkit-tap-highlight-color: transparent;
-        font-size: 15px;
+        font-size: 12px;
     }
-
+    .selectAll {
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
+        font-size: 12px;
+    }
     .Minting_prog {
         width: 400px;
     }
@@ -687,6 +707,14 @@ span {
     .link {
         font-size: 20px;
     }
+    .balance {
+        font-size: 8px;
+    }
+    .connect {
+        font-size: 10px;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
+    }
     .Minting_prog {
         width: 400px;
     }
@@ -711,11 +739,12 @@ span {
     }
 }
 @media (max-width: 480px) {
-    .balance {
-        font-size: 10px;
+    .How_text {
+        font-size: 16px;
     }
+
     .link {
-        font-size: 20px;
+        font-size: 18px;
     }
     .Minting_prog {
         width: 400px;
@@ -747,18 +776,14 @@ span {
     .Minting_prog_text_item2 {
         font-size: 13px;
     }
-    .buyButton {
-        margin-left: 200px;
-    }
     .Minting_prog_text_item1 {
         font-size: 13px;
     }
     .p {
         max-width: 300px;
     }
-
     .link {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .Minting_prog {
@@ -788,10 +813,9 @@ span {
     .HomeM {
         padding: 10px 20px;
     }
-    .logoSW {
-        margin-bottom: 50px;
+    .link {
+        font-size: 14px;
     }
-
     .Minting_prog {
         width: 300px;
     }
@@ -820,10 +844,9 @@ span {
         font-size: 8px;
     }
     .connect {
-        font-size: 8px;
-    }
-    .link {
-        font-size: 16px;
+        font-size: 10px;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+        -webkit-tap-highlight-color: transparent;
     }
 
     .Minting_prog {

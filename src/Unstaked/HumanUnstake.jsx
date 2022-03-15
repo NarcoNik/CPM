@@ -10,23 +10,29 @@ const HumanUnstake = (props) => {
         };
     }, []);
 
+    React.useEffect(() => {
+        if (selectionH) {
+            setSelection(false);
+        }
+    }, [selectionH]);
+
     const handleNftClick = () => {
         if (!mountedRef.current) return null;
         setSelection(!selection);
-        handleNFTBlockClick(nft.id);
+        handleNFTBlockClick(nft.edition);
     };
     return (
         <div className="nftCard">
             <div
                 className="nftBox"
                 style={{
-                    borderColor: selection
-                        ? "green"
-                        : selectionH
+                    borderColor: selectionH
                         ? "yellow"
+                        : selection
+                        ? "green"
                         : "",
                 }}
-                key={nft?.id}
+                key={nft?.edition}
             >
                 <img
                     onClick={() => handleNftClick()}
@@ -37,7 +43,10 @@ const HumanUnstake = (props) => {
             </div>
             <p>{nft?.name}</p>
             <div className="nftButton">
-                <button className="connectBTN" onClick={() => stake(nft.id)}>
+                <button
+                    className="connectBTN"
+                    onClick={() => stake(nft.edition)}
+                >
                     Stake
                 </button>
             </div>

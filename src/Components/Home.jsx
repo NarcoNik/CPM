@@ -4,7 +4,6 @@ import twitter from "../img/twiter.png";
 import discord from "../img/discord.png";
 import Asur from "../img/Asur.png";
 import Tofu from "../img/Tofu.png";
-import Tethys from "../img/Tethys.png";
 
 export default function Minting() {
     const mountedRef = React.useRef(true);
@@ -19,34 +18,38 @@ export default function Minting() {
             <p className="Minting_text">
                 Welcome this is the first tactical game in
                 <span style={{ color: "#02ffff" }}> METIS Blockchain</span> with
-                3 unique classes: Humans/Implants/Cyborgs and which will help
-                you survive and earn in the brutal Night City
+                3 unique classes: Humans, Implants or Cyborgs
+                <br /> and which will help you survive and earn in the brutal
+                Night City
             </p>
             <div className="HomeSocL">
                 <a href="https://twitter.com/cyberpunkmetis" className="SLink">
                     <img
                         style={{
-                            height: "50px",
+                            height: "48px",
                         }}
                         className="imgS"
                         alt=""
                         src={twitter}
                     />
                 </a>
-                <a href="https://discord.gg/cyberpunk-metis" className="SLink">
+                <a href="https://discord.gg/cyberpunkmetis" className="SLink">
                     <img
                         style={{
-                            height: "60px",
+                            height: "55px",
                         }}
                         alt=""
                         src={discord}
                     />
                 </a>
-                <a href="https://www.assuredefi.io/" className="SLink">
+                <a
+                    href="https://www.assuredefi.io/projects/cyber-punk-metis/"
+                    className="SLink"
+                >
                     <img
                         style={{
-                            marginTop: "2px",
-                            height: "36px",
+                            marginBottom: "6px",
+                            height: "76px",
                         }}
                         alt=""
                         src={Asur}
@@ -55,19 +58,11 @@ export default function Minting() {
                 <a href="https://tofunft.com/" className="SLink">
                     <img
                         style={{
-                            height: "65px",
+                            marginBottom: "5px",
+                            height: "68px",
                         }}
                         alt=""
                         src={Tofu}
-                    />
-                </a>
-                <a href="https://tethys.finance/" className="SLink">
-                    <img
-                        style={{
-                            height: "37px",
-                        }}
-                        alt=""
-                        src={Tethys}
                     />
                 </a>
             </div>

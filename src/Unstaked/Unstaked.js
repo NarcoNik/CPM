@@ -36,13 +36,44 @@ export default function Unstaked() {
         };
     }, []);
 
+    // remove dublicates func
+    const remover = (arr) => {
+        return arr.reduce(function (a, b) {
+            if (a.indexOf(b) < 0) a.push(b);
+            return a;
+        }, []);
+    };
+
+    // remove Arr from slected Items
+    const fromArrRemover = (mainArr, toRemove) => {
+        const newArr = mainArr.filter(function (el) {
+            return !toRemove.includes(el);
+        });
+        return newArr;
+    };
+
+    // get clicked id type
+    const getClickedType = (id) => {
+        return Implant.map((x) => (x = x?.edition)).indexOf(id) !== -1
+            ? "Implant"
+            : Human.map((x) => (x = x?.edition)).indexOf(id) !== -1
+            ? "Human"
+            : Cyborg.map((x) => (x = x?.edition)).indexOf(id) !== -1
+            ? "Cyborg"
+            : null;
+    };
+
     // Stake Function
     async function stake(a) {
         if (!mountedRef.current) return null;
+        const clickedType = getClickedType(a);
         if (newNetwork === mainnetChain) {
             await stakeContract.methods
                 .stake(a)
-                .send({ from: account }, alert("Stake " + a));
+                .send(
+                    { from: account },
+                    alert("Stake " + clickedType + " " + a)
+                );
         } else {
             alert(alertChain);
         }
@@ -79,88 +110,78 @@ export default function Unstaked() {
 
     function selectAllHumans() {
         if (!mountedRef.current) return null;
-        const allHuman = Human.map((x) => (x = x?.id));
-        if (!selectionH) {
-            if (selected.length > 0) {
-                setSelectionI(false);
-                setSelectionC(false);
-                setSelectionH(!selectionH);
-                setSelected(allHuman);
-            } else {
-                setSelectionH(!selectionH);
-                setSelected(allHuman);
-            }
-        }
+        const allHuman = Human.map((x) => (x = x?.edition));
         if (selectionH) {
-            setSelectionH(!selectionH);
-            setSelected([]);
+            let selectedArr = [...selected];
+            selectedArr = fromArrRemover(selectedArr, allHuman);
+            setSelected(selectedArr);
+            setSelectionH(false);
+        } else if (!selectionH) {
+            const selectedArr = remover([...selected, ...allHuman]);
+
+            setSelectionH(true);
+            setSelected(selectedArr);
         }
         return;
     }
     function selectAllImplant() {
         if (!mountedRef.current) return null;
-        const allImplant = Implant.map((x) => (x = x?.id));
-        if (!selectionI) {
-            if (selected.length > 0) {
-                setSelectionH(false);
-                setSelectionC(false);
-                setSelectionI(!selectionI);
-                setSelected(allImplant);
-            } else {
-                setSelectionI(!selectionI);
-                setSelected(allImplant);
-            }
-        }
+        const allImplant = Implant.map((x) => (x = x?.edition));
         if (selectionI) {
-            setSelectionI(!selectionI);
-            setSelected([]);
+            let selectedArr = [...selected];
+            selectedArr = fromArrRemover(selectedArr, allImplant);
+            setSelected(selectedArr);
+            setSelectionI(false);
+        } else if (!selectionI) {
+            const selectedArr = remover([...selected, ...allImplant]);
+            setSelectionI(true);
+            setSelected(selectedArr);
         }
         return;
     }
     function selectAllCyborg() {
         if (!mountedRef.current) return null;
-        const allCyborg = Cyborg.map((x) => (x = x?.id));
-        if (!selectionC) {
-            if (selected.length > 0) {
-                setSelectionH(false);
-                setSelectionI(false);
-                setSelectionC(!selectionC);
-                setSelected(allCyborg);
-            } else {
-                setSelectionC(!selectionC);
-                setSelected(allCyborg);
-            }
-        }
+        const allCyborg = Cyborg.map((x) => (x = x?.edition));
         if (selectionC) {
-            setSelectionC(!selectionC);
-            setSelected([]);
+            let selectedArr = [...selected];
+            selectedArr = fromArrRemover(selectedArr, allCyborg);
+            setSelected(selectedArr);
+            setSelectionC(false);
+        } else if (!selectionC) {
+            const selectedArr = remover([...selected, ...allCyborg]);
+            setSelectionC(true);
+            setSelected(selectedArr);
         }
         return;
     }
 
-    const handleNFTBlockClick = async (id) => {
+    const handleNFTBlockClick = (id) => {
         if (!mountedRef.current) return null;
-        if (selectionH) {
-            console.log(1);
-            await selectAllHumans();
-            handleNFTBlock(id);
-        } else if (selectionI) {
-            console.log(2);
-            await selectAllImplant();
-            handleNFTBlock(id);
-        } else if (selectionC) {
-            console.log(3);
-            await selectAllCyborg();
-            handleNFTBlock(id);
-        } else {
-            console.log(4);
-            handleNFTBlock(id);
+        // Checking for AllSelections if selected, turning off and adding one element
+        const clickedType = getClickedType(id);
+        if (clickedType === "Human" && selectionH) {
+            const allHuman = Human.map((x) => (x = x?.edition));
+            const selectedArr = fromArrRemover(selected, allHuman);
+            setSelected([...selectedArr, id]);
+            setSelectionH(false);
+            return;
         }
-    };
+        if (clickedType === "Cyborg" && selectionC) {
+            const allCyborg = Cyborg.map((x) => (x = x?.edition));
+            const selectedArr = fromArrRemover(selected, allCyborg);
+            setSelected([...selectedArr, id]);
+            setSelectionC(false);
+            return;
+        }
+        if (clickedType === "Implant" && selectionI) {
+            const allImplant = Implant.map((x) => (x = x?.edition));
+            const selectedArr = fromArrRemover(selected, allImplant);
+            setSelected([...selectedArr, id]);
+            setSelectionI(false);
+            return;
+        }
 
-    const handleNFTBlock = (id) => {
-        if (!mountedRef.current) return null;
-        console.log(5);
+        // or just filtering and adding or removing item
 
         if (selected.indexOf(id) === -1) {
             const arr = selected;
@@ -207,7 +228,7 @@ export default function Unstaked() {
                     if (!mountedRef.current) return null;
                     return (
                         <HumanUnstake
-                            key={nft.id}
+                            key={nft.edition}
                             nft={nft}
                             stake={stake}
                             selection={selection}
@@ -231,7 +252,7 @@ export default function Unstaked() {
                     if (!mountedRef.current) return null;
                     return (
                         <ImplantUnstake
-                            key={nft.id}
+                            key={nft.edition}
                             nft={nft}
                             stake={stake}
                             selection={selection}
@@ -255,7 +276,7 @@ export default function Unstaked() {
                     if (!mountedRef.current) return null;
                     return (
                         <CyborgUnstake
-                            key={nft.id}
+                            key={nft.edition}
                             nft={nft}
                             stake={stake}
                             selection={selection}

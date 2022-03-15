@@ -145,7 +145,7 @@ export default function Vault() {
                     Deposit
                 </button>
                 <button className="connectBTN" onClick={() => harvest()}>
-                    Harvest
+                    Claim
                 </button>
                 <button className="connectBTN" onClick={() => withdraw()}>
                     Withdraw All

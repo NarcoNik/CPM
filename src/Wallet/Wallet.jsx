@@ -5,9 +5,9 @@ import {
     injected,
     ethereum,
     // mainnetAvalanche,
-    testnetAvalanche,
+    // testnetAvalanche,
     // mainnetMetis,
-    // testnetMetis,
+    testnetMetis,
 } from "../helpers/Connector";
 import { getEllipsisTxt } from "../helpers/formatters";
 import NativeBalance from "./NativeBalance";
@@ -39,7 +39,7 @@ export default function Wallet() {
             if (account.length === null) {
             } else if (account[0] !== currentAccount) {
                 const newNetwork = parseInt(chainId);
-                if (newNetwork === 0xa869) {
+                if (newNetwork === 588) {
                     currentAccount = account[0];
                 } else {
                     currentAccount = null;
@@ -49,7 +49,7 @@ export default function Wallet() {
 
         function handleChainChanged(chainId) {
             const newNetwork = parseInt(chainId);
-            if (newNetwork === 0xa869) {
+            if (newNetwork === 588) {
                 connect();
             }
         }
@@ -72,9 +72,9 @@ export default function Wallet() {
         }
 
         if (ethereum) {
-            if (chainId !== 0xa869) {
+            if (chainId !== 588) {
                 await ethereum.on("chainChanged", handleChainChanged);
-                await ethereum.request(testnetAvalanche);
+                await ethereum.request(testnetMetis);
             }
             await Con();
         } else {

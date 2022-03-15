@@ -25,10 +25,17 @@ const ImplantStake = (props) => {
             mountedRef.current = false;
         };
     }, []);
+
+    React.useEffect(() => {
+        if (selectionI) {
+            setSelection(false);
+        }
+    }, [selectionI]);
+
     const handleNftClick = () => {
         if (!mountedRef.current) return null;
         setSelection(!selection);
-        handleNFTBlockClick(nft.id);
+        handleNFTBlockClick(nft.edition);
     };
     const [nowFarm, setIdFarm] = React.useState(0);
     async function getIdFarm(p) {
@@ -42,7 +49,7 @@ const ImplantStake = (props) => {
     }
     React.useEffect(() => {
         if (!mountedRef.current) return null;
-        getIdFarm(nft?.id);
+        getIdFarm(nft?.edition);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nft, mountedRef.current]);
     return (
@@ -50,13 +57,13 @@ const ImplantStake = (props) => {
             <div
                 className="nftBox"
                 style={{
-                    borderColor: selection
-                        ? "green"
-                        : selectionI
+                    borderColor: selectionI
                         ? "yellow"
+                        : selection
+                        ? "green"
                         : "",
                 }}
-                key={nft?.id}
+                key={nft?.edition}
             >
                 <img
                     onClick={() => handleNftClick()}
@@ -72,22 +79,25 @@ const ImplantStake = (props) => {
             <div className="nftButtonImplant">
                 <button
                     className="connectBTN"
-                    onClick={() => unstake(nft.id)}
+                    onClick={() => unstake(nft.edition)}
                     style={{
                         marginInlineEnd: "auto",
                     }}
                 >
                     Unstake
                 </button>
-                <button className="connectBTN" onClick={() => harvest(nft.id)}>
-                    Harvest
+                <button
+                    className="connectBTN"
+                    onClick={() => harvest(nft.edition)}
+                >
+                    Claim
                 </button>
                 <button
                     className="connectBTN"
                     style={{
                         backgroundColor: "#fffb02",
                     }}
-                    onClick={() => stealReward(nft.id)}
+                    onClick={() => stealReward(nft.edition)}
                 >
                     Cyberattack
                 </button>

@@ -9,13 +9,13 @@ import {
     STAKE_ABI,
     STAKE_ADDRESS,
 } from "../helpers/Connector";
-import { usePINATA } from "../hooks/useIPFS";
+import { useIPFS } from "../hooks/useIPFS";
 
 export const useNFTBalanceStake = () => {
     window.web3 = new Web3(ethereum);
     const mountedRef = React.useRef(true);
     const { account } = useWeb3React();
-    const { resLink } = usePINATA();
+    const { resolveLink } = useIPFS();
     const [NFTBalance, setNFTBalance] = React.useState([]);
     const [data, setData] = React.useState([]);
     var stakeContract = new window.web3.eth.Contract(STAKE_ABI, STAKE_ADDRESS, {
@@ -43,17 +43,18 @@ export const useNFTBalanceStake = () => {
             const meta = data;
             for (let NFT of meta) {
                 if (NFT) {
-                    NFT.image = resLink(NFT?.image);
+                    NFT.image = resolveLink(NFT?.image);
                 }
             }
             setNFTBalance(meta);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, mountedRef.current]);
+
     async function getInventory() {
         if (!mountedRef.current) return null;
         let stakedId = await stakeContract.methods
-            .getStakedTokens("0xf45C2F6C0129D18198BE3C9a62A442943C01b7f3")
+            .getStakedTokens(account)
             .call({ from: account });
 
         const arrayOfURL = await Promise.all(
@@ -64,10 +65,9 @@ export const useNFTBalanceStake = () => {
                         .call({ from: account })
             )
         );
-        const nftMetadata = arrayOfURL.map((z) => resLink(z)); //check if don't download
         const nftObjects = async () =>
             await Promise.all(
-                nftMetadata.map(async (x) => {
+                arrayOfURL.map(async (x) => {
                     const { data } = await axios.get(x);
                     return data;
                 })
@@ -78,12 +78,14 @@ export const useNFTBalanceStake = () => {
         return setData(metadata);
     }
 
-    const Human = NFTBalance.filter((x) => (x.rarity > 0 ? 0 : x));
-    const Implant = NFTBalance.filter((x) =>
-        0 < x.rarity && x.rarity < 2 ? x : 0
+    const Human = NFTBalance.filter(
+        (x) => x.type !== "Implant" && x.type !== "Cyborg"
     );
-    const Cyborg = NFTBalance.filter((x) =>
-        1 < x.rarity && x.rarity < 3 ? x : 0
+    const Implant = NFTBalance.filter(
+        (x) => x.type !== "Human" && x.type !== "Cyborg"
+    );
+    const Cyborg = NFTBalance.filter(
+        (x) => x.type !== "Implant" && x.type !== "Human"
     );
 
     return { Human, Implant, Cyborg };

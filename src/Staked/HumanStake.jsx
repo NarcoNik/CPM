@@ -18,10 +18,11 @@ const HumanStake = (props) => {
             mountedRef.current = false;
         };
     }, []);
+
     const handleNftClick = () => {
         if (!mountedRef.current) return null;
         setSelection(!selection);
-        handleNFTBlockClick(nft.id);
+        handleNFTBlockClick(nft.edition);
     };
 
     const [nowFarm, setIdFarm] = React.useState(0);
@@ -35,7 +36,7 @@ const HumanStake = (props) => {
     }
     React.useEffect(() => {
         if (!mountedRef.current) return null;
-        getIdFarm(nft?.id);
+        getIdFarm(nft?.edition);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nft, mountedRef.current]);
     return (
@@ -43,7 +44,7 @@ const HumanStake = (props) => {
             <div
                 className="nftBox"
                 style={{ borderColor: selection ? "green" : "" }}
-                key={nft?.id}
+                key={nft?.edition}
             >
                 <img
                     onClick={() => handleNftClick()}
@@ -57,10 +58,16 @@ const HumanStake = (props) => {
                 {nowFarm + " $NEON"}
             </p>
             <div className="nftButton">
-                <button className="connectBTN" onClick={() => harvest(nft.id)}>
-                    Harvest
+                <button
+                    className="connectBTN"
+                    onClick={() => harvest(nft.edition)}
+                >
+                    Claim
                 </button>
-                <button className="connectBTN" onClick={() => unstake(nft.id)}>
+                <button
+                    className="connectBTN"
+                    onClick={() => unstake(nft.edition)}
+                >
                     Unstake
                 </button>
             </div>

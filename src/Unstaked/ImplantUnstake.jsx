@@ -10,23 +10,29 @@ const ImplantUnstake = (props) => {
         };
     }, []);
 
+    React.useEffect(() => {
+        if (selectionI) {
+            setSelection(false);
+        }
+    }, [selectionI]);
+
     const handleNftClick = () => {
         if (!mountedRef.current) return null;
         setSelection(!selection);
-        handleNFTBlockClick(nft.id);
+        handleNFTBlockClick(nft.edition);
     };
     return (
         <div className="nftCard">
             <div
                 className="nftBox"
                 style={{
-                    borderColor: selection
-                        ? "green"
-                        : selectionI
+                    borderColor: selectionI
                         ? "yellow"
+                        : selection
+                        ? "green"
                         : "",
                 }}
-                key={nft?.id}
+                key={nft?.edition}
             >
                 <img
                     onClick={() => handleNftClick()}
@@ -37,7 +43,10 @@ const ImplantUnstake = (props) => {
             </div>
             <p>{nft?.name}</p>
             <div className="nftButton">
-                <button className="connectBTN" onClick={() => stake(nft.id)}>
+                <button
+                    className="connectBTN"
+                    onClick={() => stake(nft.edition)}
+                >
                     Stake
                 </button>
             </div>

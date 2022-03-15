@@ -5,7 +5,7 @@ import Home from "./Components/Home.jsx";
 import Minting from "./Components/Minting";
 import Stake from "./Components/Stake";
 // import Vault from "./Components/Vault";
-import How from "./Components/How";
+import Rules from "./Components/Rules";
 
 const App = () => {
     return (
@@ -18,7 +18,6 @@ const App = () => {
                                 href="https://tethys.finance/"
                                 className="connectBTN"
                                 style={{
-                                    padding: "0 6px",
                                     textDecoration: "none",
                                     fontFamily: "Staatliches, bold",
                                     backgroundColor: "#d52977",
@@ -38,7 +37,7 @@ const App = () => {
                             <Link className="link" to="/Vault">
                                 Bank
                             </Link>
-                            <Link className="link" to="/How">
+                            <Link className="link" to="/Rules">
                                 Rules
                             </Link>
                             <Wallet />
@@ -58,8 +57,8 @@ const App = () => {
                             <Route exact path="/Vault">
                                 {/* <Vault /> */}
                             </Route>
-                            <Route exact path="/How">
-                                <How />
+                            <Route exact path="/Rules">
+                                <Rules />
                             </Route>
                         </Switch>
                     </div>

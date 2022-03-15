@@ -30,6 +30,33 @@ export default function Staked() {
         };
     }, []);
 
+    // remove dublicates func
+    const remover = (arr) => {
+        return arr.reduce(function (a, b) {
+            if (a.indexOf(b) < 0) a.push(b);
+            return a;
+        }, []);
+    };
+
+    // remove Arr from slected Items
+    const fromArrRemover = (mainArr, toRemove) => {
+        const newArr = mainArr.filter(function (el) {
+            return !toRemove.includes(el);
+        });
+        return newArr;
+    };
+
+    // get clicked id type
+    const getClickedType = (id) => {
+        return Implant.map((x) => (x = x?.edition)).indexOf(id) !== -1
+            ? "Implant"
+            : Human.map((x) => (x = x?.edition)).indexOf(id) !== -1
+            ? "Human"
+            : Cyborg.map((x) => (x = x?.edition)).indexOf(id) !== -1
+            ? "Cyborg"
+            : null;
+    };
+
     // Harvest Function
     async function harvestAll() {
         if (!mountedRef.current) return null;
@@ -43,11 +70,14 @@ export default function Staked() {
     }
     async function harvest(z) {
         if (!mountedRef.current) return null;
+        const clickedType = getClickedType(z);
         if (newNetwork === mainnetChain) {
             await stakeContract.methods
                 .harvest(z)
-                .send({ from: account }, alert("Claim " + z))
-                .then(window.web3.eth.transactionPollingInterval);
+                .send(
+                    { from: account },
+                    alert("Claim " + clickedType + " " + z)
+                );
         } else {
             alert(alertChain);
         }
@@ -76,10 +106,14 @@ export default function Staked() {
     //Unstake Function
     async function unstake(x) {
         if (!mountedRef.current) return null;
+        const clickedType = getClickedType(x);
         if (newNetwork === mainnetChain) {
             await stakeContract.methods
                 .unstake(x)
-                .send({ from: account }, alert("Unstake " + x));
+                .send(
+                    { from: account },
+                    alert("Unstake " + clickedType + " " + x)
+                );
         } else {
             alert(alertChain);
         }
@@ -103,59 +137,66 @@ export default function Staked() {
 
     function selectAllImplant() {
         if (!mountedRef.current) return null;
-        const allImplant = Implant.map((x) => (x = x?.id));
-        if (!selectionI) {
-            if (selected.length > 0) {
-                setSelectionC(false);
-                setSelection(false);
-                setSelectionI(!selectionI);
-                setSelected(allImplant);
-            } else {
-                setSelectionI(!selectionI);
-                setSelected(allImplant);
-            }
-        }
+        const allImplant = Implant.map((x) => (x = x?.edition));
         if (selectionI) {
-            setSelectionI(!selectionI);
-            setSelected([]);
+            let selectedArr = [...selected];
+            selectedArr = fromArrRemover(selectedArr, allImplant);
+            setSelected(selectedArr);
+            setSelectionI(false);
+        } else if (!selectionI) {
+            const selectedArr = remover([...selected, ...allImplant]);
+            setSelectionI(true);
+            setSelected(selectedArr);
         }
         return;
     }
     function selectAllCyborg() {
         if (!mountedRef.current) return null;
-        const allCyborg = Cyborg.map((x) => (x = x?.id));
-        if (!selectionC) {
-            if (selected.length > 0) {
-                setSelectionI(false);
-                setSelection(false);
-                setSelectionC(!selectionC);
-                setSelected(allCyborg);
-            } else {
-                setSelectionC(!selectionC);
-                setSelected(allCyborg);
-            }
-        }
+        const allCyborg = Cyborg.map((x) => (x = x?.edition));
         if (selectionC) {
-            setSelectionC(!selectionC);
-            setSelected([]);
+            let selectedArr = [...selected];
+            selectedArr = fromArrRemover(selectedArr, allCyborg);
+            setSelected(selectedArr);
+            setSelectionC(false);
+        } else if (!selectionC) {
+            const selectedArr = remover([...selected, ...allCyborg]);
+            setSelectionC(true);
+            setSelected(selectedArr);
         }
         return;
     }
 
     const handleNFTBlockClick = (id) => {
         if (!mountedRef.current) return null;
+        // Checking for AllSelections if selected, turning off and adding one element
+        const clickedType = getClickedType(id);
+        console.log(clickedType);
+
+        if (clickedType === "Cyborg" && selectionC) {
+            const allCyborg = Cyborg.map((x) => (x = x?.edition));
+            const selectedArr = fromArrRemover(selected, allCyborg);
+            setSelected([...selectedArr, id]);
+            setSelectionC(false);
+            return;
+        }
+        if (clickedType === "Implant" && selectionI) {
+            const allImplant = Implant.map((x) => (x = x?.edition));
+            const selectedArr = fromArrRemover(selected, allImplant);
+            setSelected([...selectedArr, id]);
+            setSelectionI(false);
+            return;
+        }
+
+        // or just filtering and adding or removing item
+
         if (selected.indexOf(id) === -1) {
             const arr = selected;
             if (!mountedRef.current) return null;
             arr.push(id);
-            setSelectionI(false);
-            setSelectionC(false);
             setSelected(arr);
         } else {
             const arr = selected.filter((i) => i !== id);
             if (!mountedRef.current) return null;
-            setSelectionI(false);
-            setSelectionC(false);
             setSelected(arr);
         }
     };
@@ -179,7 +220,7 @@ export default function Staked() {
                     if (!mountedRef.current) return null;
                     return (
                         <HumanStake
-                            key={nft.id}
+                            key={nft.edition}
                             nft={nft}
                             harvest={harvest}
                             unstake={unstake}
@@ -200,13 +241,12 @@ export default function Staked() {
                     if (!mountedRef.current) return null;
                     return (
                         <ImplantStake
-                            key={nft.id}
+                            key={nft.edition}
                             nft={nft}
                             unstake={unstake}
                             harvest={harvest}
                             selection={selection}
                             selectionI={selectionI}
-                            setSelectionI={setSelectionI}
                             setSelection={setSelection}
                             stealReward={stealReward}
                             handleNFTBlockClick={handleNFTBlockClick}
@@ -226,14 +266,13 @@ export default function Staked() {
                     if (!mountedRef.current) return null;
                     return (
                         <CyborgStake
-                            key={nft.id}
+                            key={nft.edition}
                             nft={nft}
                             harvest={harvest}
                             unstake={unstake}
                             selection={selection}
                             selectionC={selectionC}
                             setSelection={setSelection}
-                            setSelectionC={setSelectionC}
                             handleNFTBlockClick={handleNFTBlockClick}
                         />
                     );
