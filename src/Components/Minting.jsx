@@ -24,6 +24,20 @@ export default function Minting() {
         <div className="Minting_cont">
             <h1 className="h1">Mint</h1>
             <img className="logoSW1" alt="" src={grt} />
+            <p
+                style={{
+                    fontSize: "24px",
+                }}
+            >
+                <u
+                    style={{
+                        color: "#02ffff",
+                    }}
+                >
+                    Mint date:
+                </u>{" "}
+                March 29 2022
+            </p>
             <p className="Minting_text">
                 Hidden in the slums of the immense Night City Superpolis lies a
                 valuable and super rare resource -{" "}

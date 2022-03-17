@@ -4,6 +4,7 @@ import twitter from "../img/twiter.png";
 import discord from "../img/discord.png";
 import Asur from "../img/Asur.png";
 import Tofu from "../img/Tofu.png";
+import { Link } from "react-router-dom";
 
 export default function Minting() {
     const mountedRef = React.useRef(true);
@@ -15,13 +16,35 @@ export default function Minting() {
     return (
         <div className="Minting_cont">
             <img className="logoSW" alt="" src={logoSW} />
-            <p className="Minting_text">
+            <p
+                style={{
+                    fontSize: "24px",
+                }}
+            >
+                <span
+                    style={{
+                        color: "#02ffff",
+                    }}
+                >
+                    Mint date:
+                </span>{" "}
+                March 29
+            </p>
+            <p className="Home_text">
                 Welcome this is the first tactical game in
                 <span style={{ color: "#02ffff" }}> METIS Blockchain</span> with
                 3 unique classes: Humans, Implants or Cyborgs
                 <br /> and which will help you survive and earn in the brutal
                 Night City
             </p>
+            <Link
+                className="Whitepaper"
+                to="/Whitepaper"
+                style={{ color: "#02ffff" }}
+            >
+                WhitePaper
+            </Link>
+
             <div className="HomeSocL">
                 <a href="https://twitter.com/cyberpunkmetis" className="SLink">
                     <img

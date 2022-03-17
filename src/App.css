@@ -3,12 +3,10 @@
 .img {
     width: 100%;
 }
-
 button {
     all: unset;
     color: black;
 }
-
 .HomeM {
     margin: 0 auto;
     display: flex;
@@ -20,12 +18,11 @@ button {
     padding: 20px 20px;
     margin: 0 auto;
     position: relative;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 50px);
     overflow-y: auto;
 }
-
 .logoSW {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     max-width: 640px;
     height: 200px;
     object-fit: contain;
@@ -37,42 +34,94 @@ button {
     height: 200px;
     object-fit: contain;
 }
-
 .link {
-    font-family: "Staatliches";
     text-decoration: none;
     font-size: 30px;
-    text-shadow: 0 4px 0 #003c62;
+    text-shadow: 3px 2px 1px #003c62;
     display: flex;
     align-items: center;
     text-align: center;
     color: white;
 }
-
-.link:hover {
-    color: #00afaf;
+.Whitepaper {
+    text-decoration: none;
+    font-size: 30px;
+    text-shadow: 3px 2px 1px #003c62;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+.Notes {
+    max-width: 500px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.Tittle {
+    color: #d52977;
+    font-size: 20px;
+    margin-top: 30px;
+}
+.Table_tittle {
+    color: #d52977;
+    font-size: 16px;
+}
+.TableRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.table .input {
+    display: none;
+}
+.TabSet {
+    border: #02ffff;
+    border-color: #02ffff inherit;
+    border-style: solid;
+    border-width: 0.5px;
 }
 
+.Human {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+}
+.Implant {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+}
+.Cyborg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    align-content: center;
+}
+.link:hover {
+    color: #02ffff;
+}
 .HomeSocL {
     justify-content: space-around;
     position: relative;
     display: flex;
     align-items: center;
     width: 300px;
-    margin-top: 10px;
+    margin-top: 50px;
 }
-
 .imgS {
     height: 45px;
     transition: all 0.5s ease;
 }
-
 .imgD {
     margin-top: 10px;
     height: 55px;
     margin-left: 15px;
 }
-
 .Header_header {
     color: "white";
     margin: 10px auto;
@@ -80,7 +129,6 @@ button {
     position: relative;
     width: 100%;
 }
-
 h1 {
     color: #d52977;
     margin-top: 60px;
@@ -128,11 +176,6 @@ h1 {
     font-family: "Staatliches";
     color: black;
     text-decoration: none;
-}
-
-span {
-    font-family: "Staatliches";
-    color: #02ffff;
 }
 
 .a:hover {
@@ -227,34 +270,33 @@ span {
     flex-direction: row;
     max-width: 800px;
 }
-
-.Vault_stake {
+.Bank {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-content: space-around;
-    align-items: center;
-    justify-content: space-evenly;
-    border: 2px solid #e7eaf3;
-    border-radius: 10px;
-    border-color: gray;
-    width: 230px;
-    height: 100px;
-    padding-left: 8px;
-    margin-top: 30px;
 }
 .Vault_stat {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    position: relative;
+    background: rgba(20, 37, 62, 0.8);
+    border-radius: 20px;
+    color: #eef1ef;
+    max-width: 240px;
+    padding: 10px 10px;
+    margin: 30px;
+}
+.Vault_stake {
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    border: 2px solid #e7eaf3;
-    border-radius: 10px;
-    border-color: gray;
-    width: 230px;
-    height: 110px;
-    /* padding-left: 8px; */
     margin-top: 30px;
+    margin-bottom: 30px;
+}
+.Vault_text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 /*box nft*/
 .NFTs {
@@ -263,7 +305,6 @@ span {
     flex-direction: row;
     -webkit-box-pack: start;
     justify-content: flex-start;
-    max-width: 800px;
     gap: 10px;
     overflow: hidden;
     overflow-x: auto;
@@ -301,41 +342,27 @@ span {
     margin-bottom: 36px;
 }
 
-.avat {
-    padding: 5px;
-    border: 5px solid white;
-    height: 132px;
-    width: 132px;
-    margin-left: 10px;
-    border-radius: 15px;
-    background-color: hsla(9, 100%, 48%, 0.541);
-}
-
-.avat2 {
-    padding: 5px;
-    border: 5px solid white;
-    height: 132px;
-    width: 132px;
-    margin-left: 10px;
-    border-radius: 15px;
-    background-color: rgba(0, 89, 255, 0.555);
-}
-
 .Minting_text {
     text-shadow: 0 2px 0 #131415;
     font-size: 20px;
-    margin-bottom: 72px;
+    margin-bottom: 60px;
+    max-width: 566px;
+    text-align: center;
+}
+.Home_text {
+    text-shadow: 0 2px 0 #131415;
+    font-size: 20px;
+    margin-bottom: 16px;
     max-width: 566px;
     text-align: center;
 }
 .How_text {
-    text-shadow: 0 2px 0 #131415;
-    height: 800px;
-    /* display: flex; */
     flex-direction: column;
-    font-size: 20px;
-    max-width: 700px;
+    max-width: 900px;
     text-align: left;
+}
+.left_text {
+    margin-left: 20px;
 }
 .tiket {
     color: #d52977;
@@ -492,8 +519,7 @@ span {
     padding-left: 8px;
     margin-top: 30px;
 }
-
-@media (max-width: 850px) {
+@media (max-width: 990px) {
     .HomeM {
         padding: 10px 20px;
     }
@@ -520,7 +546,7 @@ span {
         flex-direction: row;
         -webkit-box-pack: start;
         justify-content: flex-start;
-        max-width: 720px;
+        max-width: 880px;
         gap: 10px;
         overflow: hidden;
         overflow-x: auto;
@@ -528,10 +554,16 @@ span {
     .Stake_nft {
         display: flex;
         flex-direction: row;
-        max-width: 720px;
+        max-width: 880px;
     }
 }
-@media (max-width: 770px) {
+@media (max-width: 940px) {
+    .logoSW1 {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        max-width: 400px;
+        height: 200px;
+    }
     .link {
         font-size: 26px;
     }
@@ -543,19 +575,72 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
-        max-width: 660px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
+        max-width: 840px;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
+        max-width: 840px;
+    }
+}
+@media (max-width: 890px) {
+    .logoSW1 {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        max-width: 400px;
+        height: 200px;
+    }
+
+    .Minting_prog {
+        width: 600px;
+    }
+    .Staking_Stake {
+        overflow-y: auto;
+    }
+    .NFTs {
+        max-width: 780px;
+    }
+    .Stake_nft {
+        max-width: 780px;
+    }
+}
+@media (max-width: 860px) {
+    .Minting_prog {
+        width: 600px;
+    }
+    .Staking_Stake {
+        overflow-y: auto;
+    }
+    .NFTs {
+        max-width: 760px;
+    }
+    .Stake_nft {
+        max-width: 760px;
+    }
+}
+@media (max-width: 810px) {
+    .Minting_prog {
+        width: 600px;
+    }
+    .Staking_Stake {
+        overflow-y: auto;
+    }
+    .NFTs {
+        max-width: 720px;
+    }
+    .Stake_nft {
+        max-width: 720px;
+    }
+}
+@media (max-width: 770px) {
+    .Minting_prog {
+        width: 600px;
+    }
+    .Staking_Stake {
+        overflow-y: auto;
+    }
+    .NFTs {
+        max-width: 660px;
+    }
+    .Stake_nft {
         max-width: 660px;
     }
 }
@@ -571,23 +656,16 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 600px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 600px;
     }
 }
 @media (max-width: 650px) {
+    .How_text {
+        font-size: 16px;
+    }
     .connect {
         font-size: 14px;
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
@@ -613,19 +691,9 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 560px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 560px;
     }
 }
@@ -638,19 +706,9 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 520px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 520px;
     }
 }
@@ -687,19 +745,9 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 480px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 480px;
     }
 }
@@ -722,27 +770,13 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 430px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 430px;
     }
 }
 @media (max-width: 480px) {
-    .How_text {
-        font-size: 16px;
-    }
-
     .link {
         font-size: 18px;
     }
@@ -753,19 +787,9 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 380px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 380px;
     }
 }
@@ -779,7 +803,7 @@ span {
     .Minting_prog_text_item1 {
         font-size: 13px;
     }
-    .p {
+    .text_ungame {
         max-width: 300px;
     }
     .link {
@@ -793,26 +817,13 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 330px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 330px;
     }
 }
 @media (max-width: 412px) {
-    .HomeM {
-        padding: 10px 20px;
-    }
     .link {
         font-size: 14px;
     }
@@ -823,19 +834,9 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 320px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 320px;
     }
 }
@@ -856,37 +857,17 @@ span {
         overflow-y: auto;
     }
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 290px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 290px;
     }
 }
 @media (max-width: 320px) {
     .NFTs {
-        display: flex;
-        flex-wrap: nowrap;
-        flex-direction: row;
-        -webkit-box-pack: start;
-        justify-content: flex-start;
         max-width: 250px;
-        gap: 10px;
-        overflow: hidden;
-        overflow-x: auto;
     }
     .Stake_nft {
-        display: flex;
-        flex-direction: row;
         max-width: 250px;
     }
 }

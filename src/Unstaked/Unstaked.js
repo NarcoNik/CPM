@@ -43,7 +43,6 @@ export default function Unstaked() {
             return a;
         }, []);
     };
-
     // remove Arr from slected Items
     const fromArrRemover = (mainArr, toRemove) => {
         const newArr = mainArr.filter(function (el) {
@@ -51,7 +50,6 @@ export default function Unstaked() {
         });
         return newArr;
     };
-
     // get clicked id type
     const getClickedType = (id) => {
         return Implant.map((x) => (x = x?.edition)).indexOf(id) !== -1
@@ -154,7 +152,6 @@ export default function Unstaked() {
         }
         return;
     }
-
     const handleNFTBlockClick = (id) => {
         if (!mountedRef.current) return null;
         // Checking for AllSelections if selected, turning off and adding one element
@@ -197,7 +194,7 @@ export default function Unstaked() {
 
     return (
         <div>
-            <p className="p">
+            <p className="text_ungame">
                 Before you stake, you need to approve your NFT for the stake
                 contract.
             </p>

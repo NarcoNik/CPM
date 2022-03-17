@@ -53,7 +53,7 @@ const CyborgStake = (props) => {
                     borderColor: selectionC
                         ? "yellow"
                         : selection
-                        ? "green"
+                        ? "pink"
                         : "",
                 }}
                 key={nft?.edition}

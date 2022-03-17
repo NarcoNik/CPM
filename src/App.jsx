@@ -4,8 +4,9 @@ import Wallet from "./Wallet/Wallet";
 import Home from "./Components/Home.jsx";
 import Minting from "./Components/Minting";
 import Stake from "./Components/Stake";
-// import Vault from "./Components/Vault";
+import Bank from "./Components/Bank";
 import Rules from "./Components/Rules";
+import Whitepaper from "./Components/Whitepaper";
 
 const App = () => {
     return (
@@ -28,13 +29,13 @@ const App = () => {
                             <Link className="link" to="/">
                                 Home
                             </Link>
-                            <Link className="link" to="/Minting">
+                            <Link className="link" to="/Mint">
                                 Mint
                             </Link>
                             <Link className="link" to="/Stake">
                                 Stake
                             </Link>
-                            <Link className="link" to="/Vault">
+                            <Link className="link" to="/CyberBank">
                                 Bank
                             </Link>
                             <Link className="link" to="/Rules">
@@ -48,17 +49,20 @@ const App = () => {
                             <Route exact path="/">
                                 <Home />
                             </Route>
-                            <Route exact path="/Minting">
+                            <Route exact path="/Mint">
                                 <Minting />
                             </Route>
                             <Route exact path="/Stake">
                                 <Stake />
                             </Route>
-                            <Route exact path="/Vault">
-                                {/* <Vault /> */}
+                            <Route exact path="/CyberBank">
+                                <Bank />
                             </Route>
                             <Route exact path="/Rules">
                                 <Rules />
+                            </Route>
+                            <Route path="/Whitepaper">
+                                <Whitepaper />
                             </Route>
                         </Switch>
                     </div>

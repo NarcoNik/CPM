@@ -29,7 +29,7 @@ const CyborgUnstake = (props) => {
                     borderColor: selectionC
                         ? "yellow"
                         : selection
-                        ? "green"
+                        ? "pink"
                         : "",
                 }}
                 key={nft?.edition}

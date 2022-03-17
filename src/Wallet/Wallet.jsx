@@ -4,7 +4,6 @@ import { useWeb3React } from "@web3-react/core";
 import {
     injected,
     ethereum,
-    // mainnetAvalanche,
     // testnetAvalanche,
     // mainnetMetis,
     testnetMetis,
@@ -30,35 +29,15 @@ export default function Wallet() {
     }, [mountedRef.current]);
 
     // Connect
-    // chainId: 0xa86a 43114,0xa869 43113, met//0x440 1088, 0x24C 588
+    // chainId: 0xa869 43113, met//0x440 1088, 0x24C 588
     async function connect() {
-        let currentAccount = account;
         console.log("Connect");
-        // var chainId = await ethereum.request({ method: "eth_chainId" });
-        function handleAccountsChanged(account) {
-            if (account.length === null) {
-            } else if (account[0] !== currentAccount) {
-                const newNetwork = parseInt(chainId);
-                if (newNetwork === 588) {
-                    currentAccount = account[0];
-                } else {
-                    currentAccount = null;
-                }
-            }
-        }
-
         function handleChainChanged(chainId) {
             const newNetwork = parseInt(chainId);
             if (newNetwork === 588) {
                 connect();
             }
         }
-
-        await ethereum.on("accountsChanged", handleAccountsChanged);
-        await ethereum
-            .request({ method: "eth_accounts" })
-            .then(handleAccountsChanged);
-
         async function Con() {
             try {
                 await activate(injected);
@@ -70,7 +49,6 @@ export default function Wallet() {
                 }
             }
         }
-
         if (ethereum) {
             if (chainId !== 588) {
                 await ethereum.on("chainChanged", handleChainChanged);
@@ -80,10 +58,8 @@ export default function Wallet() {
         } else {
             // console.log("MetaMask is not installed");
         }
-        ethereum.removeListener("accountsChanged", handleAccountsChanged);
         ethereum.removeListener("chainChanged", handleChainChanged);
     }
-
     // Disconnect
     async function disconnect() {
         console.log("Disconnect");
@@ -93,7 +69,6 @@ export default function Wallet() {
             console.log(ex);
         }
     }
-
     return (
         <div className="HeaderMetamask">
             {active ? <NativeBalance /> : null}

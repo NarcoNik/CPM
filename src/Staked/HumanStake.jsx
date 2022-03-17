@@ -43,7 +43,7 @@ const HumanStake = (props) => {
         <div className="nftCard">
             <div
                 className="nftBox"
-                style={{ borderColor: selection ? "green" : "" }}
+                style={{ borderColor: selection ? "pink" : "" }}
                 key={nft?.edition}
             >
                 <img

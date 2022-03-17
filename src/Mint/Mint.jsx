@@ -24,7 +24,6 @@ export default function Mint() {
     const { active, account, chainId } = useWeb3React();
     const { balances } = useTokenBalance();
     const newNetwork = parseInt(chainId);
-    const [auth, setAuth] = React.useState(false);
     var mintContract = new window.web3.eth.Contract(MINT_ABI, MINT_ADDRESS, {
         from: account,
     });
@@ -37,19 +36,6 @@ export default function Mint() {
         };
     }, []);
 
-    React.useEffect(() => {
-        let timeout;
-        if (active && !auth) {
-            timeout = setTimeout(() => {
-                setAuth(true);
-            });
-        }
-        return () => {
-            clearTimeout(timeout);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [active]);
-
     const [a, setCirc] = React.useState(0);
     async function getcirulatingSupply() {
         if (!mountedRef.current) return null;
@@ -57,46 +43,58 @@ export default function Mint() {
             .cirulatingSupply()
             .call({ from: account });
         if (!mountedRef.current) return null;
-        active ? setCirc(b) : setCirc(0);
+        setCirc(b);
     }
-    // const a = 0;
+    // const a = 25000;
     // Get token sold
     function getTokenSold() {
         if (!mountedRef.current) return null;
         getcirulatingSupply();
         let s = (a * b) / c + "%";
-        return active ? s : 0;
+        return s;
     }
     let s = getTokenSold();
     let gen0;
     let gen1;
     let gen2;
+    let total;
+    let sold;
 
     switch (true) {
         case a && a < 5000:
             gen0 = "in progress";
             gen1 = "future";
             gen2 = "future";
+            total = "5 000 GEN 0 MINTED";
+            sold = 0;
             break;
         case 5000 <= a && a < 15000:
             gen0 = "sold out";
             gen1 = "in progress";
             gen2 = "future";
+            total = "10 000 GEN 1 MINTED";
+            sold = 5000;
             break;
         case a >= 15000 && a < 25000:
             gen0 = "sold out";
             gen1 = "sold out";
             gen2 = "in progress";
+            total = "10 000 GEN 2 MINTED";
+            sold = 15000;
             break;
         case 25000 <= a:
             gen0 = "sold out";
             gen1 = "sold out";
             gen2 = "sold out";
+            total = "25 000 MINTED";
+            sold = 0;
             break;
         default:
             gen0 = "future";
             gen1 = "future";
             gen2 = "future";
+            total = "5 000 GEN 0 MINTED";
+            sold = 0;
     }
 
     //Plus and Minus function
@@ -190,20 +188,13 @@ export default function Mint() {
                         50000 $NEON <span>{gen2}</span>
                     </div>
                 </div>
-                {active ? (
-                    <div className="Minting_amount">
-                        {a} / 5 000 GEN 0 MINTED
-                    </div>
-                ) : (
-                    <div className="Minting_amount">0 / 5 000 GEN 0 MINTED</div>
-                )}
-                {active && auth && (
-                    <div className="Minting_balance">
-                        {active
-                            ? "Balance: " + n4.format(balances) + " $NEON"
-                            : "Balance: 0 $NEON"}
-                    </div>
-                )}
+                <div className="Minting_amount">
+                    {a - sold} / {total}
+                </div>
+
+                <div className="Minting_balance">
+                    Balance: {n4.format(balances)} $NEON
+                </div>
                 <div className="Minting_group">
                     <button
                         type="button"
@@ -243,11 +234,9 @@ export default function Mint() {
                     )}
                     <br />
                     <br />
-                    {active ? (
-                        <button onClick={() => approve()} className="MINT">
-                            Approve $NEON
-                        </button>
-                    ) : null}
+                    <button onClick={() => approve()} className="MINT">
+                        Approve $NEON
+                    </button>
                     <br />
                     <br />
                     <p

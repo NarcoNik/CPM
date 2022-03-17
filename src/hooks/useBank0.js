@@ -3,7 +3,7 @@ import React from "react";
 import { VAULT_ABI, VAULT_ADDRESS, ethereum } from "../helpers/Connector";
 import { useWeb3React } from "@web3-react/core";
 
-export const useVaultTokenBal = () => {
+export const useBank0 = () => {
     window.web3 = new Web3(ethereum);
     const mountedRef = React.useRef(true);
     const { account } = useWeb3React();
@@ -17,13 +17,16 @@ export const useVaultTokenBal = () => {
     }, []);
     const [vaultTokenBal, setVaultTokenBal] = React.useState([]);
     const [vaultRewDebt, setVaultRewDebt] = React.useState([]);
-    const [pendingReward, setPendingReward] = React.useState(0);
-    const [poolInfo, setPoolInfo] = React.useState([]);
+    const [pendingReward, setPendingReward] = React.useState([]);
+    const [totalStaked, setTotalStaked] = React.useState([]);
+    const [totalRewarded, setTotalRewarded] = React.useState([]);
+    const [APR, setAPR] = React.useState([]);
 
     React.useEffect(() => {
         getUserInfo();
         getPendingReward();
         getPoolInfo();
+        getAPR();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mountedRef.current]);
 
@@ -33,7 +36,7 @@ export const useVaultTokenBal = () => {
             .userInfo("0", account)
             .call({ from: account });
         const bal = window.web3.utils.fromWei(data.amount);
-        const rew = window.web3.utils.fromWei(data.rewardDebt);
+        const rew = window.web3.utils.fromWei(data.totalReward);
         setVaultTokenBal(bal);
         setVaultRewDebt(rew);
     }
@@ -46,6 +49,14 @@ export const useVaultTokenBal = () => {
         const bal = window.web3.utils.fromWei(data);
         setPendingReward(bal);
     }
+    async function getAPR() {
+        if (!mountedRef.current) return null;
+        const data = await vaultContract.methods
+            .getAPR("0")
+            .call({ from: account });
+        const bal = window.web3.utils.fromWei(data);
+        setAPR(bal / 70);
+    }
 
     async function getPoolInfo() {
         if (!mountedRef.current) return null;
@@ -53,7 +64,16 @@ export const useVaultTokenBal = () => {
             .poolInfo("0")
             .call({ from: account });
         const bal = window.web3.utils.fromWei(data.amount);
-        setPoolInfo(bal);
+        const rew = window.web3.utils.fromWei(data.rewarded);
+        setTotalStaked(bal);
+        setTotalRewarded(rew);
     }
-    return { vaultTokenBal, pendingReward, poolInfo, vaultRewDebt };
+    return {
+        vaultTokenBal,
+        pendingReward,
+        totalStaked,
+        totalRewarded,
+        vaultRewDebt,
+        APR,
+    };
 };

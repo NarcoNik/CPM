@@ -1,8 +1,9 @@
 import React from "react";
 import { useWeb3React } from "@web3-react/core";
+import Bank0 from "../Bank/Bank0";
+import Bank1 from "../Bank/Bank1";
 
-import VaultStake from "../Vault/VaultStake";
-export default function Vault() {
+export default function Bank() {
     const [auth, setAuth] = React.useState(false);
     const { active } = useWeb3React();
 
@@ -29,8 +30,9 @@ export default function Vault() {
                 <h1 className="h1">Cyber Bank</h1>
             </div>
             <div className="Stake_cont">
-                <div expand="md" className="Header_staking">
-                    {active && auth && <>{active && <VaultStake />}</>}
+                <div className="Bank">
+                    {active && auth && <>{active && <Bank0 />}</>}
+                    {active && auth && <>{active && <Bank1 />}</>}
                 </div>
             </div>
         </>

@@ -2,7 +2,7 @@ import Web3 from "web3";
 import React from "react";
 import { useWeb3React } from "@web3-react/core";
 import { n4, n6 } from "../helpers/formatters";
-import { useVaultTokenBal } from "../hooks/useVaultTokenBal";
+import { useBank1 } from "../hooks/useBank1";
 import {
     ethereum,
     alertChain,
@@ -10,20 +10,26 @@ import {
     VAULT_ABI,
     VAULT_ADDRESS,
     TOKEN_ABI,
-    TOKEN_ADDRESS,
+    LP_ADDRESS,
 } from "../helpers/Connector";
 
-export default function Vault() {
+export default function Bank1() {
     window.web3 = new Web3(ethereum);
     const mountedRef = React.useRef(true);
-    const { active, account, chainId } = useWeb3React();
-    const { vaultTokenBal, pendingReward, poolInfo, vaultRewDebt } =
-        useVaultTokenBal();
+    const { account, chainId } = useWeb3React();
+    const {
+        vaultTokenBal,
+        pendingReward,
+        totalStaked,
+        totalRewarded,
+        vaultRewDebt,
+        APR,
+    } = useBank1();
     const newNetwork = parseInt(chainId);
     var vaultContract = new window.web3.eth.Contract(VAULT_ABI, VAULT_ADDRESS, {
         from: account,
     });
-    var tokenContract = new window.web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS, {
+    var tokenContract = new window.web3.eth.Contract(TOKEN_ABI, LP_ADDRESS, {
         from: account,
     });
 
@@ -58,8 +64,8 @@ export default function Vault() {
         const a = test;
         if (newNetwork === mainnetChain) {
             await vaultContract.methods
-                .deposit("0", a)
-                .send({ from: account }, alert("Deposit $NEON"));
+                .deposit("1", a)
+                .send({ from: account }, alert("Deposit"));
         } else {
             alert(alertChain);
         }
@@ -69,8 +75,8 @@ export default function Vault() {
         if (!mountedRef.current) return null;
         if (newNetwork === mainnetChain) {
             await vaultContract.methods
-                .harvest("0", account)
-                .send({ from: account }, alert("Claim $"));
+                .harvest("1", account)
+                .send({ from: account }, alert("Claim"));
         } else {
             alert(alertChain);
         }
@@ -80,55 +86,40 @@ export default function Vault() {
         if (!mountedRef.current) return null;
         if (newNetwork === mainnetChain) {
             await vaultContract.methods
-                .withdraw("0", window.web3.utils.toWei(vaultTokenBal))
-                .send({ from: account }, alert("Withdraw $NEON"));
+                .withdraw("1", vaultTokenBal)
+                .send({ from: account }, alert("Withdraw"));
         } else {
             alert(alertChain);
         }
     }
 
     return (
-        <>
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                }}
-            >
-                To deposit your token $NEON, you need to first approve him
-                <div
+        <div className="Vault_stat">
+            <div className="Vault_text">
+                <span
                     style={{
-                        width: "180px",
-                        marginLeft: "20px",
+                        fontSize: "18px",
                     }}
                 >
-                    <button
-                        className="connectBTN"
-                        onClick={() => approve()}
-                        style={{
-                            marginInlineEnd: "auto",
-                        }}
-                    >
-                        Approve $NEON
-                    </button>
-                </div>
+                    $NEON - $NEON-lp Pool
+                </span>
+                <button
+                    className="connectBTN"
+                    onClick={() => approve()}
+                    style={{
+                        fontSize: "14px",
+                    }}
+                >
+                    Approve
+                </button>
             </div>
-            <div className="Vault_stat">
-                {active
-                    ? `Total staked $NEON: ${n4.format(poolInfo)}`
-                    : "Total staked $NEON: 0"}
-                <br />
-                {active
-                    ? `Your staked $NEON: ${n4.format(vaultTokenBal)}`
-                    : "Your staked $NEON: 0"}
-                <br />
-                {active
-                    ? `Pending $: ${n6.format(pendingReward)}`
-                    : "Claim $: 0"}
-                <br />
-                {active
-                    ? `Total claimed $: ${n6.format(vaultRewDebt)}`
-                    : "Total claimed $: 0"}
+            <br />
+            <div className="Vault_text">
+                Pending:
+                <span>{n6.format(pendingReward * 1000)}</span>
+            </div>
+            <div className="Vault_text">
+                Your claimed: <span>{n6.format(vaultRewDebt)}</span>
             </div>
             <div className="Vault_stake">
                 <input
@@ -137,10 +128,10 @@ export default function Vault() {
                     value={test}
                     style={{
                         borderRadius: "10px",
+                        height: "25px",
                     }}
                     placeholder="123..."
                 />
-
                 <button className="connectBTN" onClick={() => deposit()}>
                     Deposit
                 </button>
@@ -151,6 +142,21 @@ export default function Vault() {
                     Withdraw All
                 </button>
             </div>
-        </>
+            <div className="Vault_text">
+                APR: <span>{n6.format(APR)} %</span>
+            </div>
+            <div className="Vault_text">
+                Your stake:
+                <span>{n4.format(vaultTokenBal)}</span>
+            </div>
+            <div className="Vault_text">
+                Total staked:
+                <span>{n4.format(totalStaked)}</span>
+            </div>
+            <div className="Vault_text">
+                Total rewarded:
+                <span>{n6.format(totalRewarded)}</span>
+            </div>
+        </div>
     );
 }

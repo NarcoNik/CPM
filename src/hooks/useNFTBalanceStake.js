@@ -2,13 +2,7 @@ import Web3 from "web3";
 import { useWeb3React } from "@web3-react/core";
 import axios from "axios";
 import React from "react";
-import {
-    ethereum,
-    MINT_ABI,
-    MINT_ADDRESS,
-    STAKE_ABI,
-    STAKE_ADDRESS,
-} from "../helpers/Connector";
+import { ethereum, STAKE_ABI, STAKE_ADDRESS } from "../helpers/Connector";
 import { useIPFS } from "../hooks/useIPFS";
 
 export const useNFTBalanceStake = () => {
@@ -19,9 +13,6 @@ export const useNFTBalanceStake = () => {
     const [NFTBalance, setNFTBalance] = React.useState([]);
     const [data, setData] = React.useState([]);
     var stakeContract = new window.web3.eth.Contract(STAKE_ABI, STAKE_ADDRESS, {
-        from: account,
-    });
-    var mintContract = new window.web3.eth.Contract(MINT_ABI, MINT_ADDRESS, {
         from: account,
     });
 
@@ -54,28 +45,16 @@ export const useNFTBalanceStake = () => {
     async function getInventory() {
         if (!mountedRef.current) return null;
         let stakedId = await stakeContract.methods
-            .getStakedTokens(account)
+            .getStakedTokens("0xf45C2F6C0129D18198BE3C9a62A442943C01b7f3")
             .call({ from: account });
 
-        const arrayOfURL = await Promise.all(
-            stakedId.map(
-                async (a) =>
-                    await mintContract.methods
-                        .tokenURI(a)
-                        .call({ from: account })
-            )
+        const { data } = await axios.post(
+            "https://cpmetis-api.herokuapp.com/api/meta/",
+            stakedId
         );
-        const nftObjects = async () =>
-            await Promise.all(
-                arrayOfURL.map(async (x) => {
-                    const { data } = await axios.get(x);
-                    return data;
-                })
-            );
 
-        const metadata = await nftObjects();
         if (!mountedRef.current) return null;
-        return setData(metadata);
+        return setData(data);
     }
 
     const Human = NFTBalance.filter(
@@ -90,3 +69,22 @@ export const useNFTBalanceStake = () => {
 
     return { Human, Implant, Cyborg };
 };
+
+// const arrayOfURL = await Promise.all(
+//     stakedId.map(
+//         async (a) =>
+//             await mintContract.methods
+//                 .tokenURI(a)
+//                 .call({ from: account })
+//     )
+// );
+
+// const nftObjects = async () =>
+//     await Promise.all(
+//         arrayOfURL.map(async (x) => {
+//             const { data } = await axios.get(x);
+//             return data;
+//         })
+//     );
+
+// const metadata = await nftObjects();

@@ -29,7 +29,7 @@ const HumanUnstake = (props) => {
                     borderColor: selectionH
                         ? "yellow"
                         : selection
-                        ? "green"
+                        ? "pink"
                         : "",
                 }}
                 key={nft?.edition}

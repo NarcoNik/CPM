@@ -29,7 +29,7 @@ const ImplantUnstake = (props) => {
                     borderColor: selectionI
                         ? "yellow"
                         : selection
-                        ? "green"
+                        ? "pink"
                         : "",
                 }}
                 key={nft?.edition}

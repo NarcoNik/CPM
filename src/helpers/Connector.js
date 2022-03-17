@@ -3,13 +3,9 @@ import { InjectedConnector } from "@web3-react/injected-connector";
 
 window.web3 = new Web3(window.ethereum);
 export const ethereum = window.ethereum;
-export const injected = new InjectedConnector({
-    supportedChainIds: [43114, 43113, 1088, 588],
-});
 
-export const mainnetChain = 588; //43114 , 43113
 export const alertChain = "Game not start";
-//Token SW
+//Token CP
 export const TOKEN_ADDRESS = "0xaFe733a6b2588d8B5C9ED49394ac6463e41509aA";
 export const TOKEN_ABI = [
     {
@@ -364,7 +360,7 @@ export const TOKEN_ABI = [
         type: "receive",
     },
 ];
-//Mint NFT SW
+//Mint NFT CP
 export const MINT_ADDRESS = "0xaE98b30eE5b5Fe23e6380E9c96F3a42c916272a4";
 export const MINT_ABI = [
     {
@@ -1476,7 +1472,7 @@ export const MINT_ABI = [
         type: "function",
     },
 ];
-//Stake SW
+//Stake CP
 export const STAKE_ADDRESS = "0xF3B334DC223aEB620D5085c7A9E41D2835A0dCF9";
 export const STAKE_ABI = [
     {
@@ -1944,8 +1940,8 @@ export const STAKE_ABI = [
         type: "function",
     },
 ];
-//Vault SW
-export const VAULT_ADDRESS = "0xAB2d271766Ad140362D5F1eb25267d1ADe81D38F";
+//Vault CP
+export const VAULT_ADDRESS = "0xaB8dBFd6f41Fee40D6D160aa9c13c3690618125B";
 export const VAULT_ABI = [
     {
         inputs: [
@@ -1999,7 +1995,7 @@ export const VAULT_ABI = [
             },
             {
                 internalType: "uint256",
-                name: "_addTokenPerPool",
+                name: "_addTotalTokens",
                 type: "uint256",
             },
             {
@@ -2073,7 +2069,7 @@ export const VAULT_ABI = [
             {
                 indexed: false,
                 internalType: "uint256",
-                name: "addTokenPerPool",
+                name: "addTokenPerBlock",
                 type: "uint256",
             },
             {
@@ -2093,11 +2089,6 @@ export const VAULT_ABI = [
                 name: "_pid",
                 type: "uint256",
             },
-            {
-                internalType: "address payable",
-                name: "_to",
-                type: "address",
-            },
         ],
         name: "closePool",
         outputs: [],
@@ -2112,12 +2103,6 @@ export const VAULT_ABI = [
                 internalType: "uint256",
                 name: "pid",
                 type: "uint256",
-            },
-            {
-                indexed: false,
-                internalType: "address payable",
-                name: "to",
-                type: "address",
             },
         ],
         name: "ClosePool",
@@ -2167,18 +2152,19 @@ export const VAULT_ABI = [
         type: "event",
     },
     {
+        inputs: [],
+        name: "emergencyStop",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
         anonymous: false,
         inputs: [
             {
                 indexed: true,
                 internalType: "address",
                 name: "user",
-                type: "address",
-            },
-            {
-                indexed: false,
-                internalType: "address",
-                name: "to",
                 type: "address",
             },
         ],
@@ -2326,7 +2312,7 @@ export const VAULT_ABI = [
             },
             {
                 internalType: "uint256",
-                name: "_rewardForEachBlock",
+                name: "_totalReward",
                 type: "uint256",
             },
             {
@@ -2362,7 +2348,7 @@ export const VAULT_ABI = [
             {
                 indexed: false,
                 internalType: "uint256",
-                name: "rewardsOneBlock",
+                name: "rewardsTotal",
                 type: "uint256",
             },
             {
@@ -2428,7 +2414,7 @@ export const VAULT_ABI = [
         ],
         name: "withdraw",
         outputs: [],
-        stateMutability: "payable",
+        stateMutability: "nonpayable",
         type: "function",
     },
     {
@@ -2455,6 +2441,25 @@ export const VAULT_ABI = [
         ],
         name: "Withdraw",
         type: "event",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_pid",
+                type: "uint256",
+            },
+        ],
+        name: "getAPR",
+        outputs: [
+            {
+                internalType: "uint256",
+                name: "",
+                type: "uint256",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
     },
     {
         inputs: [
@@ -2506,7 +2511,7 @@ export const VAULT_ABI = [
                 type: "address",
             },
         ],
-        name: "pendingTokens",
+        name: "pendingReward",
         outputs: [
             {
                 internalType: "uint256",
@@ -2536,6 +2541,11 @@ export const VAULT_ABI = [
                 internalType: "contract IERC20",
                 name: "rewardToken",
                 type: "address",
+            },
+            {
+                internalType: "uint256",
+                name: "acc_token_precision",
+                type: "uint256",
             },
             {
                 internalType: "uint256",
@@ -2627,6 +2637,11 @@ export const VAULT_ABI = [
                 name: "rewardDebt",
                 type: "uint256",
             },
+            {
+                internalType: "uint256",
+                name: "totalReward",
+                type: "uint256",
+            },
         ],
         stateMutability: "view",
         type: "function",
@@ -2645,6 +2660,7 @@ export const VAULT_ABI = [
         type: "function",
     },
 ];
+export const LP_ADDRESS = "0xbc5BBcB5231A9D3Ed74c1C38a951aA626D10CFCC";
 // Get token sold
 export const b = 100;
 export const c = 25000;
@@ -2716,3 +2732,7 @@ export const testnetMetis = {
 export function truncate(fullstr) {
     return fullstr.slice(0, 6) + "..." + fullstr.slice(-4);
 }
+export const injected = new InjectedConnector({
+    supportedChainIds: [43114, 43113, 1088, 588],
+});
+export const mainnetChain = 588; //43114 , 43113

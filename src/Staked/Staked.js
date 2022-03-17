@@ -29,7 +29,6 @@ export default function Staked() {
             mountedRef.current = false;
         };
     }, []);
-
     // remove dublicates func
     const remover = (arr) => {
         return arr.reduce(function (a, b) {
@@ -37,7 +36,6 @@ export default function Staked() {
             return a;
         }, []);
     };
-
     // remove Arr from slected Items
     const fromArrRemover = (mainArr, toRemove) => {
         const newArr = mainArr.filter(function (el) {
@@ -45,7 +43,6 @@ export default function Staked() {
         });
         return newArr;
     };
-
     // get clicked id type
     const getClickedType = (id) => {
         return Implant.map((x) => (x = x?.edition)).indexOf(id) !== -1
@@ -56,7 +53,6 @@ export default function Staked() {
             ? "Cyborg"
             : null;
     };
-
     // Harvest Function
     async function harvestAll() {
         if (!mountedRef.current) return null;
@@ -82,8 +78,12 @@ export default function Staked() {
             alert(alertChain);
         }
     }
+    const [status, setStatus] = React.useState();
+    console.log(status);
+
     async function stealReward(f) {
         if (!mountedRef.current) return null;
+        const clickedType = getClickedType(f);
         if (newNetwork === mainnetChain) {
             const x = await stakeContract.methods
                 .getCurrentStealPrice()
@@ -91,18 +91,16 @@ export default function Staked() {
 
             stakeContract.methods
                 .stealReward(f)
-                .send({ from: account, value: x });
-            // .then(function (error, hash) {
-            //     alert("Cyberattack " + f + ": " + hash);
-            //     //    window.web3.eth
-            //     //         .getTransactionReceipt(hash)
-            //     //         .then((x) => console.log(x));
-            // })
+                .send({ from: account, value: x }, function (error, hash) {
+                    alert("Cyberattack " + clickedType + " " + f + ": " + hash);
+                    window.web3.eth
+                        .getTransactionReceipt(hash)
+                        .then((x) => setStatus(x?.status));
+                });
         } else {
             alert(alertChain);
         }
     }
-
     //Unstake Function
     async function unstake(x) {
         if (!mountedRef.current) return null;
@@ -128,7 +126,6 @@ export default function Staked() {
             alert(alertChain);
         }
     }
-
     //Select
     const [selected, setSelected] = React.useState([]);
     const [selection, setSelection] = React.useState(false);
@@ -165,13 +162,10 @@ export default function Staked() {
         }
         return;
     }
-
     const handleNFTBlockClick = (id) => {
         if (!mountedRef.current) return null;
         // Checking for AllSelections if selected, turning off and adding one element
         const clickedType = getClickedType(id);
-        console.log(clickedType);
-
         if (clickedType === "Cyborg" && selectionC) {
             const allCyborg = Cyborg.map((x) => (x = x?.edition));
             const selectedArr = fromArrRemover(selected, allCyborg);
@@ -213,7 +207,7 @@ export default function Staked() {
                     Unstake
                 </button>
             </div>
-
+            <br />
             <p>Human: {Human.length}</p>
             <div className="NFTs">
                 {Human.map((nft) => {

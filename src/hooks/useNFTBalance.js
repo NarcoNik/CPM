@@ -45,31 +45,16 @@ export const useNFTBalance = () => {
     async function getInventory() {
         if (!mountedRef.current) return null;
         const NFTIDS = await mintContract.methods
-            .getUserNFTIds(account)
+            .getUserNFTIds("0xf45C2F6C0129D18198BE3C9a62A442943C01b7f3")
             .call({ from: account });
 
-        const arrayOfURL = await Promise.all(
-            NFTIDS.map(
-                async (a) =>
-                    await mintContract.methods
-                        .tokenURI(a)
-                        .call({ from: account })
-            )
+        const { data } = await axios.post(
+            "https://cpmetis-api.herokuapp.com/api/meta/",
+            NFTIDS
         );
 
-        // await nftObject();
-        const nftObjects = async () =>
-            await Promise.all(
-                arrayOfURL.map(async (x) => {
-                    const { data } = await axios.get(x);
-                    return data;
-                })
-            );
-
-        const metadata = await nftObjects();
-
         if (!mountedRef.current) return null;
-        return setData(metadata);
+        return setData(data);
     }
 
     const Human = NFTBalance.filter(
@@ -84,3 +69,21 @@ export const useNFTBalance = () => {
 
     return { Human, Implant, Cyborg };
 };
+
+// const arrayOfURL = await Promise.all(
+//     NFTIDS.map(
+//         async (a) =>
+//             await mintContract.methods.tokenURI(a).call({ from: account })
+//     )
+// );
+
+// // await nftObject();
+// const nftObjects = async () =>
+//     await Promise.all(
+//         arrayOfURL.map(async (x) => {
+//             const { data } = await axios.get(x);
+//             return data;
+//         })
+//     );
+
+// const metadata = await nftObjects();
