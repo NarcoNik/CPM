@@ -19,12 +19,15 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
         monospace;
 }
-.App {
+
+.Apps {
+    color: rgb(255, 255, 255);
+    /* min-height: 100vh; */
+    margin: 0 auto;
+    height: 100vh;
+    font-family: "Staatliches";
     background-color: #0000005e;
-}
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {

@@ -1,5 +1,5 @@
 import React from "react";
-import logoSW from "../img/logo.png";
+import logoCP from "../img/logo.png";
 import twitter from "../img/twiter.png";
 import discord from "../img/discord.png";
 import Asur from "../img/Asur.png";
@@ -15,7 +15,7 @@ export default function Minting() {
     }, []);
     return (
         <div className="Minting_cont">
-            <img className="logoSW" alt="" src={logoSW} />
+            <img className="logoCP" alt="" src={logoCP} />
             <p
                 style={{
                     fontSize: "24px",
@@ -37,16 +37,12 @@ export default function Minting() {
                 <br /> and which will help you survive and earn in the brutal
                 Night City
             </p>
-            <Link
-                className="Whitepaper"
-                to="/Whitepaper"
-                style={{ color: "#02ffff" }}
-            >
+            <Link className="Whitepaper" to="/Whitepaper">
                 WhitePaper
             </Link>
 
             <div className="HomeSocL">
-                <a href="https://twitter.com/cyberpunkmetis" className="SLink">
+                <a href="https://twitter.com/cyberpunkmetis">
                     <img
                         style={{
                             height: "48px",
@@ -56,7 +52,7 @@ export default function Minting() {
                         src={twitter}
                     />
                 </a>
-                <a href="https://discord.gg/cyberpunkmetis" className="SLink">
+                <a href="https://discord.gg/cyberpunkmetis">
                     <img
                         style={{
                             height: "55px",
@@ -65,10 +61,7 @@ export default function Minting() {
                         src={discord}
                     />
                 </a>
-                <a
-                    href="https://www.assuredefi.io/projects/cyber-punk-metis/"
-                    className="SLink"
-                >
+                <a href="https://www.assuredefi.io/projects/cyber-punk-metis/">
                     <img
                         style={{
                             marginBottom: "6px",
@@ -78,7 +71,7 @@ export default function Minting() {
                         src={Asur}
                     />
                 </a>
-                <a href="https://tofunft.com/" className="SLink">
+                <a href="https://tofunft.com/">
                     <img
                         style={{
                             marginBottom: "5px",

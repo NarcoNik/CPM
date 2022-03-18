@@ -78,8 +78,8 @@ export default function Staked() {
             alert(alertChain);
         }
     }
-    const [status, setStatus] = React.useState();
-    console.log(status);
+    // const [status, setStatus] = React.useState();
+    // console.log(status);
 
     async function stealReward(f) {
         if (!mountedRef.current) return null;
@@ -93,9 +93,9 @@ export default function Staked() {
                 .stealReward(f)
                 .send({ from: account, value: x }, function (error, hash) {
                     alert("Cyberattack " + clickedType + " " + f + ": " + hash);
-                    window.web3.eth
-                        .getTransactionReceipt(hash)
-                        .then((x) => setStatus(x?.status));
+                    // window.web3.eth
+                    //     .getTransactionReceipt(hash)
+                    //     .then((x) => setStatus(x?.status));
                 });
         } else {
             alert(alertChain);

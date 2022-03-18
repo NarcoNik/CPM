@@ -94,8 +94,8 @@ export default function Bank1() {
     }
 
     return (
-        <div className="Vault_stat">
-            <div className="Vault_text">
+        <div className="Bank_stat">
+            <div className="Bank_text">
                 <span
                     style={{
                         fontSize: "18px",
@@ -114,14 +114,14 @@ export default function Bank1() {
                 </button>
             </div>
             <br />
-            <div className="Vault_text">
+            <div className="Bank_text">
                 Pending:
                 <span>{n6.format(pendingReward * 1000)}</span>
             </div>
-            <div className="Vault_text">
+            <div className="Bank_text">
                 Your claimed: <span>{n6.format(vaultRewDebt)}</span>
             </div>
-            <div className="Vault_stake">
+            <div className="Bank_stake">
                 <input
                     type="text"
                     onChange={change}
@@ -142,18 +142,18 @@ export default function Bank1() {
                     Withdraw All
                 </button>
             </div>
-            <div className="Vault_text">
+            <div className="Bank_text">
                 APR: <span>{n6.format(APR)} %</span>
             </div>
-            <div className="Vault_text">
+            <div className="Bank_text">
                 Your stake:
                 <span>{n4.format(vaultTokenBal)}</span>
             </div>
-            <div className="Vault_text">
+            <div className="Bank_text">
                 Total staked:
                 <span>{n4.format(totalStaked)}</span>
             </div>
-            <div className="Vault_text">
+            <div className="Bank_text">
                 Total rewarded:
                 <span>{n6.format(totalRewarded)}</span>
             </div>

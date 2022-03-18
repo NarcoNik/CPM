@@ -23,13 +23,13 @@ export default function Minting() {
     return (
         <div className="Minting_cont">
             <h1 className="h1">Mint</h1>
-            <img className="logoSW1" alt="" src={grt} />
+            <img className="logoCP1" alt="" src={grt} />
 
             <p className="Minting_text">
                 Hidden in the slums of the immense Night City Superpolis lies a
                 valuable and super rare resource -{" "}
-                <span className="tiket"> $NEON </span>. Humans from all
-                Superpolis outskirts flock to it hoping to get some of its
+                <span style={{ color: "#d52977" }}> $NEON </span>. Humans from
+                all Superpolis outskirts flock to it hoping to get some of its
                 supplies, but Implants lurk in the dark alleys ready to steal
                 all the mined wealth. Cyborgs are neutral in this confrontation
                 and provide support to both sides
