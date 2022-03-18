@@ -45,7 +45,7 @@ export default function Mint() {
         if (!mountedRef.current) return null;
         setCirc(b);
     }
-    // const a = 25000;
+    // const a = 0;
     // Get token sold
     function getTokenSold() {
         if (!mountedRef.current) return null;

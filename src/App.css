@@ -595,7 +595,7 @@ button {
         max-width: 720px;
     }
 }
-@media (max-width: 770px) {
+@media (max-width: 768px) {
     .hamburgermenu {
         display: inline;
     }
