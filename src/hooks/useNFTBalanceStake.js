@@ -45,7 +45,7 @@ export const useNFTBalanceStake = () => {
     async function getInventory() {
         if (!mountedRef.current) return null;
         let stakedId = await stakeContract.methods
-            .getStakedTokens("0xf45c2f6c0129d18198be3c9a62a442943c01b7f3")
+            .getStakedTokens("0xf45C2F6C0129D18198BE3C9a62A442943C01b7f3")
             .call({ from: account });
 
         const { data } = await axios.post(

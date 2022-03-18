@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 
 import "./index.css";
-import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function getLibrary() {
