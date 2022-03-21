@@ -253,7 +253,7 @@ button {
     -webkit-text-fill-color: black;
     color: black;
     border-radius: 8px;
-    border: 1px solid #131415;
+    border: 0px solid #131415;
     padding: 0px 6px;
     background-color: #02ffff;
     margin: 4px;

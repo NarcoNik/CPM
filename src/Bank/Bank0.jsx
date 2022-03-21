@@ -7,11 +7,12 @@ import {
     ethereum,
     alertChain,
     mainnetChain,
-    VAULT_ABI,
-    VAULT_ADDRESS,
+    BANK_ABI,
+    BANK_ADDRESS,
     TOKEN_ABI,
     TOKEN_ADDRESS,
 } from "../helpers/Connector";
+import SnackbarUI from "../Components/SnackbarUI";
 
 export default function Bank0() {
     window.web3 = new Web3(ethereum);
@@ -26,7 +27,7 @@ export default function Bank0() {
         APR,
     } = useBank0();
     const newNetwork = parseInt(chainId);
-    var vaultContract = new window.web3.eth.Contract(VAULT_ABI, VAULT_ADDRESS, {
+    var bankContract = new window.web3.eth.Contract(BANK_ABI, BANK_ADDRESS, {
         from: account,
     });
     var tokenContract = new window.web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS, {
@@ -38,6 +39,11 @@ export default function Bank0() {
             mountedRef.current = false;
         };
     }, []);
+    const [openSnackbar, setOpenSnackbar] = React.useState({
+        open: false,
+        text: "",
+        type: "pending",
+    });
 
     const [test, setTest] = React.useState("");
     function change(e) {
@@ -50,10 +56,29 @@ export default function Bank0() {
     async function approve() {
         if (!mountedRef.current) return null;
         const neon = window.web3.utils.toWei("100000000000000000000000000");
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Approving`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await tokenContract.methods
-                .approve(VAULT_ADDRESS, neon)
-                .send({ from: account }, alert("Approve $NEON to vault"));
+            try {
+                await tokenContract.methods
+                    .approve(BANK_ADDRESS, neon)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Approved`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Approving failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -62,10 +87,29 @@ export default function Bank0() {
     async function deposit() {
         if (!mountedRef.current) return null;
         const a = test;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Deposit`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await vaultContract.methods
-                .deposit("0", a)
-                .send({ from: account }, alert("Deposit"));
+            try {
+                await bankContract.methods
+                    .deposit("0", a)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Deposit`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Deposit failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -73,10 +117,29 @@ export default function Bank0() {
 
     async function harvest() {
         if (!mountedRef.current) return null;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Claiming`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await vaultContract.methods
-                .harvest("0", account)
-                .send({ from: account }, alert("Claim"));
+            try {
+                await bankContract.methods
+                    .harvest("0", account)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Claimed`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Claiming failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -84,18 +147,48 @@ export default function Bank0() {
 
     async function withdraw() {
         if (!mountedRef.current) return null;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Withdraw all`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await vaultContract.methods
-                .withdraw("0", vaultTokenBal)
-                .send({ from: account });
-            alert("Withdraw");
+            try {
+                await bankContract.methods
+                    .withdraw("0", vaultTokenBal)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Withdraw`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Withdraw failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
     }
 
+    async function closeSnackbar() {
+        await setOpenSnackbar({
+            open: false,
+            text: "",
+            type: "",
+        });
+        return;
+    }
+
     return (
         <div className="Bank_stat">
+            {openSnackbar?.text?.length ? (
+                <SnackbarUI data={openSnackbar} closeSnackbar={closeSnackbar} />
+            ) : null}
             <div className="Bank_text">
                 <span
                     style={{
@@ -145,7 +238,7 @@ export default function Bank0() {
                 </button>
             </div>
             <div className="Bank_text">
-                APR: <span>{n6.format(APR)} %</span>
+                APR: <span>{n4.format(APR)} %</span>
             </div>
             <div className="Bank_text">
                 Your stake:

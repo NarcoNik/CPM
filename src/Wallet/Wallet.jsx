@@ -29,7 +29,7 @@ export default function Wallet() {
     }, [mountedRef.current]);
 
     // Connect
-    // chainId: 0xa869 43113, met//0x440 1088, 0x24C 588
+    // chainId: 0x440 1088, 0x24C 588
     async function connect() {
         console.log("Connect");
         function handleChainChanged(chainId) {

@@ -15,6 +15,7 @@ import {
 import HumanUnstake from "./HumanUnstake";
 import CyborgUnstake from "./CyborgUnstake";
 import ImplantUnstake from "./ImplantUnstake";
+import SnackbarUI from "../Components/SnackbarUI";
 import Stats from "../Staked/Stats";
 
 export default function Unstaked() {
@@ -30,12 +31,17 @@ export default function Unstaked() {
     var mintContract = new window.web3.eth.Contract(MINT_ABI, MINT_ADDRESS, {
         from: account,
     });
+
     React.useEffect(() => {
         return () => {
             mountedRef.current = false;
         };
     }, []);
-
+    const [openSnackbar, setOpenSnackbar] = React.useState({
+        open: false,
+        text: "",
+        type: "pending",
+    });
     // remove dublicates func
     const remover = (arr) => {
         return arr.reduce(function (a, b) {
@@ -65,23 +71,56 @@ export default function Unstaked() {
     async function stake(a) {
         if (!mountedRef.current) return null;
         const clickedType = getClickedType(a);
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Staking ${clickedType} ${a}`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await stakeContract.methods
-                .stake(a)
-                .send(
-                    { from: account },
-                    alert("Stake " + clickedType + " " + a)
-                );
+            try {
+                await stakeContract.methods.stake(a).send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Sucessfully Staked`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Staking failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
     }
     async function stakeMultiple(i) {
         if (!mountedRef.current) return null;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Staking Multiple NFT`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await stakeContract.methods
-                .stakeMultiple(i)
-                .send({ from: account }, alert("Stake Multiple " + i));
+            try {
+                await stakeContract.methods
+                    .stakeMultiple(i)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Staked`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Staking failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -90,10 +129,29 @@ export default function Unstaked() {
     // Approve Function
     async function approve() {
         if (!mountedRef.current) return null;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Approve Staking all NFT`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await mintContract.methods
-                .setApprovalForAll(STAKE_ADDRESS, "true")
-                .send({ from: account }, alert("Approve All"));
+            try {
+                await mintContract.methods
+                    .setApprovalForAll(STAKE_ADDRESS, "true")
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Approved`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Approve failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -192,12 +250,23 @@ export default function Unstaked() {
         }
     };
 
+    const closeSnackbar = () => {
+        setOpenSnackbar({
+            open: false,
+            text: "",
+            type: "",
+        });
+    };
+
     return (
         <div>
             <p className="text_ungame">
                 Before you stake, you need to approve your NFT for the stake
                 contract.
             </p>
+            {openSnackbar?.text?.length ? (
+                <SnackbarUI data={openSnackbar} closeSnackbar={closeSnackbar} />
+            ) : null}
             <div className="Stake_nft">
                 {isApproved ? (
                     <button className="connectBTN">Approved</button>

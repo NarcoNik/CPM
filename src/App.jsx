@@ -1,7 +1,6 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-
 import Wallet from "./Wallet/Wallet";
 import Home from "./Components/Home.jsx";
 import Minting from "./Components/Minting";
@@ -58,63 +57,43 @@ const App = () => {
                             alt=""
                         />
                     </div>
-
-                    <CSSTransition
-                        in={!isSmallScreen || isNavVisible}
-                        timeout={250}
-                        classNames="nav-animation"
-                        unmountOnExit
-                    >
-                        <nav className="nav">
-                            <Link className="link" to="/">
-                                Home
-                            </Link>
-                            <Link className="link" to="/Mint">
-                                Mint
-                            </Link>
-                            <Link className="link" to="/Stake">
-                                Stake
-                            </Link>
-                            <Link className="link" to="/CyberBank">
-                                Bank
-                            </Link>
-                            <Link className="link" to="/Rules">
-                                Rules
-                            </Link>
-                            <Link className="link" to="/Whitepaper">
-                                WhitePaper
-                            </Link>
-                        </nav>
-                    </CSSTransition>
-                    <div
-                        className="hamburgermenu"
-                        // disabled={props.disabled}
-                        onClick={(e) => toggleNav(e)}
-                    >
-                        <div className="bm-bar1"></div>
-                        <div className="bm-bar2"></div>
-                        <div className="bm-bar3"></div>
-                    </div>
-                    {/* <Nav>
-                        <Link className="link" to="/">
-                            Home
-                        </Link>
-                        <Link className="link" to="/Mint">
-                            Mint
-                        </Link>
-                        <Link className="link" to="/Stake">
-                            Stake
-                        </Link>
-                        <Link className="link" to="/CyberBank">
-                            Bank
-                        </Link>
-                        <Link className="link" to="/Rules">
-                            Rules
-                        </Link>
-                        <Link className="link" to="/Whitepaper">
-                            WhitePaper
-                        </Link>
-                    </Nav> */}
+                    <React.Fragment>
+                        <CSSTransition
+                            in={!isSmallScreen || isNavVisible}
+                            timeout={250}
+                            classNames="nav-animation"
+                            unmountOnExit
+                        >
+                            <nav className="nav">
+                                <Link className="link" to="/">
+                                    Home
+                                </Link>
+                                <Link className="link" to="/Mint">
+                                    Mint
+                                </Link>
+                                <Link className="link" to="/Stake">
+                                    Stake
+                                </Link>
+                                <Link className="link" to="/CyberBank">
+                                    Bank
+                                </Link>
+                                <Link className="link" to="/Rules">
+                                    Rules
+                                </Link>
+                                <Link className="link" to="/Whitepaper">
+                                    WhitePaper
+                                </Link>
+                            </nav>
+                        </CSSTransition>
+                        <div
+                            className="hamburgermenu"
+                            onClick={(e) => toggleNav(e)}
+                        >
+                            <div className="bm-bar1"></div>
+                            <div className="bm-bar2"></div>
+                            <div className="bm-bar3"></div>
+                        </div>
+                    </React.Fragment>
                     <Wallet />
                 </header>
                 <div className="Back">

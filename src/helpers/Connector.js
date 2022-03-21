@@ -1941,8 +1941,8 @@ export const STAKE_ABI = [
     },
 ];
 //Vault CP
-export const VAULT_ADDRESS = "0xaB8dBFd6f41Fee40D6D160aa9c13c3690618125B";
-export const VAULT_ABI = [
+export const BANK_ADDRESS = "0xaB8dBFd6f41Fee40D6D160aa9c13c3690618125B";
+export const BANK_ABI = [
     {
         inputs: [
             {
@@ -2664,22 +2664,6 @@ export const LP_ADDRESS = "0xbc5BBcB5231A9D3Ed74c1C38a951aA626D10CFCC";
 // Get token sold
 export const b = 100;
 export const c = 25000;
-//Add network AVALANCHE MAINNET
-const AVALANCHE_MAINNET_PARAMS = {
-    chainId: "0xA86A",
-    chainName: "Avalanche Mainnet",
-    nativeCurrency: {
-        name: "Avalanche",
-        symbol: "AVAX",
-        decimals: 18,
-    },
-    rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
-    blockExplorerUrls: ["https://snowtrace.io/"],
-};
-export const mainnetAvalanche = {
-    method: "wallet_addEthereumChain",
-    params: [AVALANCHE_MAINNET_PARAMS],
-};
 //Add network AVALANCHE TESTNET
 const AVALANCHE_TESTNET_PARAMS = {
     chainId: "0xa869",
@@ -2735,4 +2719,4 @@ export function truncate(fullstr) {
 export const injected = new InjectedConnector({
     supportedChainIds: [43114, 43113, 1088, 588],
 });
-export const mainnetChain = 588; //43114 , 43113
+export const mainnetChain = 588;

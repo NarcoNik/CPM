@@ -1,13 +1,13 @@
 import Web3 from "web3";
 import React from "react";
-import { VAULT_ABI, VAULT_ADDRESS, ethereum } from "../helpers/Connector";
+import { BANK_ABI, BANK_ADDRESS, ethereum } from "../helpers/Connector";
 import { useWeb3React } from "@web3-react/core";
 
 export const useBank1 = () => {
     window.web3 = new Web3(ethereum);
     const mountedRef = React.useRef(true);
     const { account } = useWeb3React();
-    var vaultContract = new window.web3.eth.Contract(VAULT_ABI, VAULT_ADDRESS, {
+    var bankContract = new window.web3.eth.Contract(BANK_ABI, BANK_ADDRESS, {
         from: account,
     });
     React.useEffect(() => {
@@ -32,7 +32,7 @@ export const useBank1 = () => {
 
     async function getUserInfo() {
         if (!mountedRef.current) return null;
-        const data = await vaultContract.methods
+        const data = await bankContract.methods
             .userInfo("1", account)
             .call({ from: account });
         const bal = window.web3.utils.fromWei(data.amount);
@@ -43,7 +43,7 @@ export const useBank1 = () => {
 
     async function getPendingReward() {
         if (!mountedRef.current) return null;
-        const data = await vaultContract.methods
+        const data = await bankContract.methods
             .pendingReward("1", account)
             .call({ from: account });
         const bal = window.web3.utils.fromWei(data);
@@ -51,7 +51,7 @@ export const useBank1 = () => {
     }
     async function getAPR() {
         if (!mountedRef.current) return null;
-        const data = await vaultContract.methods
+        const data = await bankContract.methods
             .getAPR("1")
             .call({ from: account });
         const bal = window.web3.utils.fromWei(data);
@@ -60,7 +60,7 @@ export const useBank1 = () => {
 
     async function getPoolInfo() {
         if (!mountedRef.current) return null;
-        const data = await vaultContract.methods
+        const data = await bankContract.methods
             .poolInfo("1")
             .call({ from: account });
         const bal = window.web3.utils.fromWei(data.amount);

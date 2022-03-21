@@ -17,6 +17,7 @@ import {
 import Metamask from "../img/MetaMask.png";
 import min from "../img/min.png";
 import plus from "../img/plus.png";
+import SnackbarUI from "../Components/SnackbarUI";
 
 export default function Mint() {
     window.web3 = new Web3(ethereum);
@@ -35,6 +36,11 @@ export default function Mint() {
             mountedRef.current = false;
         };
     }, []);
+    const [openSnackbar, setOpenSnackbar] = React.useState({
+        open: false,
+        text: "",
+        type: "pending",
+    });
 
     const [a, setCirc] = React.useState(0);
     async function getcirulatingSupply() {
@@ -45,7 +51,7 @@ export default function Mint() {
         if (!mountedRef.current) return null;
         setCirc(b);
     }
-    // const a = 0;
+    // const a = 14999;
     // Get token sold
     function getTokenSold() {
         if (!mountedRef.current) return null;
@@ -119,29 +125,55 @@ export default function Mint() {
             .getCurrentPrice()
             .call({ from: account });
         const payforMint = payMint * count;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Minting`,
+            type: "pending",
+        });
         try {
             if (a < 5000) {
-                mintContract.methods
+                await mintContract.methods
                     .mint(count)
                     .send({ from: account, value: payforMint });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully ${count} NFT Gen 0 Minted`,
+                    type: "success",
+                });
             } else if (5000 <= a && a < 15000) {
-                mintContract.methods.mint(count).send(
-                    {
-                        from: account,
-                        value: "0",
-                    },
-                    alert("You mint " + count + " NFT Gen 1")
-                );
+                await mintContract.methods.mint(count).send({
+                    from: account,
+                    value: "0",
+                });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully ${count} NFT Gen 1 Minted`,
+                    type: "success",
+                });
             } else if (15000 <= a && a < 25000) {
-                mintContract.methods.mint(count).send(
-                    {
-                        from: account,
-                        value: "0",
-                    },
-                    alert("You mint " + count + " NFT Gen 2")
-                );
+                await mintContract.methods.mint(count).send({
+                    from: account,
+                    value: "0",
+                });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully ${count} NFT Gen 2 Minted`,
+                    type: "success",
+                });
+            } else if (25000 <= a) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Full minted`,
+                    type: "success",
+                });
             }
         } catch (e) {
+            setOpenSnackbar({
+                open: true,
+                text: `Minting failed`,
+                type: "error",
+            });
             console.log(e);
         }
     }
@@ -157,17 +189,47 @@ export default function Mint() {
         const neonTotal = window.web3.utils.toWei(
             "100000000000000000000000000"
         );
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Approving`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await tokenContract.methods
-                .approve(MINT_ADDRESS, neonTotal)
-                .send({ from: account }, alert("Approve $NEON"));
+            try {
+                await tokenContract.methods
+                    .approve(MINT_ADDRESS, neonTotal)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Approved`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Approving failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
     }
+    async function closeSnackbar() {
+        await setOpenSnackbar({
+            open: false,
+            text: "",
+            type: "",
+        });
+        return;
+    }
 
     return (
         <div className="btnMINT">
+            {openSnackbar?.text?.length ? (
+                <SnackbarUI data={openSnackbar} closeSnackbar={closeSnackbar} />
+            ) : null}
             <div className="Minting_prog">
                 <div
                     style={{

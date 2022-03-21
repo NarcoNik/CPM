@@ -13,6 +13,7 @@ import HumanStake from "./HumanStake";
 import ImplantStake from "./ImplantStake";
 import CyborgStake from "./CyborgStake";
 import Stats from "./Stats";
+import SnackbarUI from "../Components/SnackbarUI";
 
 export default function Staked() {
     window.web3 = new Web3(ethereum);
@@ -22,6 +23,11 @@ export default function Staked() {
     const newNetwork = parseInt(chainId);
     var stakeContract = new window.web3.eth.Contract(STAKE_ABI, STAKE_ADDRESS, {
         from: account,
+    });
+    const [openSnackbar, setOpenSnackbar] = React.useState({
+        open: false,
+        text: "",
+        type: "pending",
     });
 
     React.useEffect(() => {
@@ -56,10 +62,29 @@ export default function Staked() {
     // Harvest Function
     async function harvestAll() {
         if (!mountedRef.current) return null;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Claiming all NFT`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await stakeContract.methods
-                .harvestAll()
-                .send({ from: account }, alert("Claim All"));
+            try {
+                await stakeContract.methods
+                    .harvestAll()
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Claimed`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Claiming failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -67,36 +92,66 @@ export default function Staked() {
     async function harvest(z) {
         if (!mountedRef.current) return null;
         const clickedType = getClickedType(z);
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Claim ${clickedType} ${z}`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await stakeContract.methods
-                .harvest(z)
-                .send(
-                    { from: account },
-                    alert("Claim " + clickedType + " " + z)
-                );
+            try {
+                await stakeContract.methods.harvest(z).send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Claimed`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Claiming failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
     }
     // const [status, setStatus] = React.useState();
-    // console.log(status);
-
     async function stealReward(f) {
         if (!mountedRef.current) return null;
-        const clickedType = getClickedType(f);
+        const clickedType = await getClickedType(f);
+        const x = await stakeContract.methods
+            .getCurrentStealPrice()
+            .call({ from: account });
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Cyberattack ${clickedType} ${f}`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            const x = await stakeContract.methods
-                .getCurrentStealPrice()
-                .call({ from: account });
-
-            stakeContract.methods
-                .stealReward(f)
-                .send({ from: account, value: x }, function (error, hash) {
-                    alert("Cyberattack " + clickedType + " " + f + ": " + hash);
-                    // window.web3.eth
-                    //     .getTransactionReceipt(hash)
-                    //     .then((x) => setStatus(x?.status));
+            try {
+                await stakeContract.methods.stealReward(f).send(
+                    { from: account, value: x }
+                    //     , function (error, hash) {
+                    //     window.web3.eth
+                    //         .getTransactionReceipt(hash)
+                    //         .then((x) => setStatus(x?.status));
+                    // }
+                );
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully Cyberattack`,
+                    type: "success",
                 });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Cyberattack failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -105,23 +160,56 @@ export default function Staked() {
     async function unstake(x) {
         if (!mountedRef.current) return null;
         const clickedType = getClickedType(x);
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Unstaking ${clickedType} ${x}`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await stakeContract.methods
-                .unstake(x)
-                .send(
-                    { from: account },
-                    alert("Unstake " + clickedType + " " + x)
-                );
+            try {
+                await stakeContract.methods.unstake(x).send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully unstaked`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Unstaking failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
     }
     async function unstakeMultipl(i) {
         if (!mountedRef.current) return null;
+        await closeSnackbar();
+        setOpenSnackbar({
+            open: true,
+            text: `Unstaking Multiple NFT`,
+            type: "pending",
+        });
         if (newNetwork === mainnetChain) {
-            await stakeContract.methods
-                .unstakeMultiple(i)
-                .send({ from: account }, alert("Unstake " + i));
+            try {
+                await stakeContract.methods
+                    .unstakeMultiple(i)
+                    .send({ from: account });
+                setOpenSnackbar({
+                    open: true,
+                    text: `Successfully unstaked`,
+                    type: "success",
+                });
+            } catch (e) {
+                setOpenSnackbar({
+                    open: true,
+                    text: `Unstaking failed`,
+                    type: "error",
+                });
+            }
         } else {
             alert(alertChain);
         }
@@ -194,8 +282,19 @@ export default function Staked() {
             setSelected(arr);
         }
     };
+    async function closeSnackbar() {
+        await setOpenSnackbar({
+            open: false,
+            text: "",
+            type: "",
+        });
+        return;
+    }
     return (
         <div>
+            {openSnackbar?.text?.length ? (
+                <SnackbarUI data={openSnackbar} closeSnackbar={closeSnackbar} />
+            ) : null}
             <div className="Stake_nft">
                 <button className="connectBTN" onClick={harvestAll}>
                     Claim All
